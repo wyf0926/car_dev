@@ -25,15 +25,15 @@ public class OrderEntity implements Serializable {
 	 * 维修单id
 	 */
 	@TableId
-	private Integer orderId;
+	private Long orderId;
 	/**
 	 * 维修单号
 	 */
-	private Integer orderNo;
+	private Long orderNo;
 	/**
 	 * 客户编号
 	 */
-	private Integer customerId;
+	private Long customerId;
 	/**
 	 * 结算日期
 	 */
@@ -77,7 +77,7 @@ public class OrderEntity implements Serializable {
 	/**
 	 * 创建人
 	 */
-	private Integer createUser;
+	private Long createUser;
 	/**
 	 * 修改时间
 	 */
@@ -85,6 +85,6 @@ public class OrderEntity implements Serializable {
 	/**
 	 * 修改人
 	 */
-	private Integer modifyUser;
+	private Long modifyUser;
 
 }

@@ -1,10 +1,11 @@
 package io.renren.modules.business.controller;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Map;
 
+import io.renren.modules.sys.controller.AbstractController;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,7 @@ import io.renren.common.utils.R;
 @RestController
 @RequestMapping("business/customer")
 @Api("客户管理接口")
-public class CustomerController {
+public class CustomerController extends AbstractController {
     @Autowired
     private CustomerService customerService;
 
@@ -66,6 +67,8 @@ public class CustomerController {
     @RequestMapping("/save")
     @RequiresPermissions("business:customer:save")
     public R save(@RequestBody CustomerEntity customer){
+        customer.setCreateUser(this.getUserId());
+        customer.setCreateTime(new Date());
 		customerService.save(customer);
 
         return R.ok();
@@ -77,6 +80,8 @@ public class CustomerController {
     @RequestMapping("/update")
     @RequiresPermissions("business:customer:update")
     public R update(@RequestBody CustomerEntity customer){
+        customer.setModifyUser(this.getUserId());
+        customer.setModifyTime(new Date());
 		customerService.updateById(customer);
 
         return R.ok();

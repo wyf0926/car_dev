@@ -24,15 +24,15 @@ public class OrderPartRelEntity implements Serializable {
 	 * 关联id
 	 */
 	@TableId
-	private Integer relId;
+	private Long relId;
 	/**
 	 * 订单id
 	 */
-	private Integer orderId;
+	private Long orderId;
 	/**
 	 * 配件id
 	 */
-	private Integer partId;
+	private Long partId;
 	/**
 	 * 实际单价
 	 */

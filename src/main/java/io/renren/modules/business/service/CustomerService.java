@@ -16,6 +16,12 @@ import java.util.Map;
  */
 public interface CustomerService extends IService<CustomerEntity> {
 
+    /**
+     * 客户分页列表接口
+     *
+     * @param params
+     * @return
+     */
     PageUtils queryPage(Map<String, Object> params);
 }
 

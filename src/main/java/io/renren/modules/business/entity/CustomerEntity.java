@@ -25,7 +25,7 @@ public class CustomerEntity implements Serializable {
 	 * 客户id
 	 */
 	@TableId
-	private Integer customerId;
+	private Long customerId;
 	/**
 	 * 客户姓名
 	 */
@@ -65,7 +65,7 @@ public class CustomerEntity implements Serializable {
 	/**
 	 * 创建人
 	 */
-	private Integer createUser;
+	private Long createUser;
 	/**
 	 * 修改时间
 	 */
@@ -73,6 +73,6 @@ public class CustomerEntity implements Serializable {
 	/**
 	 * 修改人
 	 */
-	private Integer modifyUser;
+	private Long modifyUser;
 
 }

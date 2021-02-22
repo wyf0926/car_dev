@@ -24,7 +24,7 @@ public class PartEntity implements Serializable {
 	 * 配件id
 	 */
 	@TableId
-	private Integer partId;
+	private Long partId;
 	/**
 	 * 配件名
 	 */
@@ -56,7 +56,7 @@ public class PartEntity implements Serializable {
 	/**
 	 * 创建人
 	 */
-	private Integer createUser;
+	private Long createUser;
 	/**
 	 * 修改时间
 	 */
@@ -64,6 +64,6 @@ public class PartEntity implements Serializable {
 	/**
 	 * 修改人
 	 */
-	private Integer modifyUser;
+	private Long modifyUser;
 
 }

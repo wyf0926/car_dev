@@ -1,5 +1,6 @@
 package io.renren.modules.business.service.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -16,11 +17,32 @@ import io.renren.modules.business.service.CustomerService;
 @Service("customerService")
 public class CustomerServiceImpl extends ServiceImpl<CustomerDao, CustomerEntity> implements CustomerService {
 
+    /**
+     * 客户分页列表接口
+     *
+     * @param params
+     * @return
+     */
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
+        QueryWrapper<CustomerEntity> queryWrapper = new QueryWrapper<>();
+
+        String key = params.get("key").toString();
+        if(StringUtils.isNotBlank(key)){
+            queryWrapper.lambda().like(CustomerEntity::getName,key);
+        }
+
+        String t = params.get("type").toString();
+        if(StringUtils.isNotBlank(t)){
+            Integer type = Integer.valueOf(t);
+            if(type != null){
+                queryWrapper.lambda().eq(CustomerEntity::getType,type);
+            }
+        }
+
         IPage<CustomerEntity> page = this.page(
                 new Query<CustomerEntity>().getPage(params),
-                new QueryWrapper<CustomerEntity>()
+                queryWrapper
         );
 
         return new PageUtils(page);

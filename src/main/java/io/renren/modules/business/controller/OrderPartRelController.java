@@ -3,6 +3,7 @@ package io.renren.modules.business.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import io.renren.modules.sys.controller.AbstractController;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,7 +28,7 @@ import io.renren.common.utils.R;
  */
 @RestController
 @RequestMapping("business/orderpartrel")
-public class OrderPartRelController {
+public class OrderPartRelController extends AbstractController {
     @Autowired
     private OrderPartRelService orderPartRelService;
 

@@ -8,14 +8,18 @@
         <result property="orderId" column="order_id"/>
         <result property="orderNo" column="order_no"/>
         <result property="customerId" column="customer_id"/>
-        <result property="orderTime" column="order_time"/>
+        <result property="driver" column="driver"/>
         <result property="carPlate" column="car_plate"/>
-        <result property="engine" column="engine"/>
+        <result property="carModel" column="car_model"/>
+        <result property="category" column="category"/>
+        <result property="incomingDate" column="incoming_date"/>
+        <result property="vin" column="VIN"/>
+        <result property="mileageAfter" column="mileage_after"/>
+        <result property="phone" column="phone"/>
+        <result property="contractorId" column="contractor_id"/>
         <result property="payType" column="pay_type"/>
         <result property="totalAmount" column="total_amount"/>
         <result property="comment" column="comment"/>
-        <result property="fee" column="fee"/>
-        <result property="worker" column="worker"/>
         <result property="delState" column="del_state"/>
         <result property="createTime" column="create_time"/>
         <result property="createUser" column="create_user"/>

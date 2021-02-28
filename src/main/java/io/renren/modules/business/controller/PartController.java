@@ -1,6 +1,7 @@
 package io.renren.modules.business.controller;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Map;
 
 import io.renren.modules.sys.controller.AbstractController;
@@ -61,6 +62,8 @@ public class PartController extends AbstractController {
     @RequestMapping("/save")
     @RequiresPermissions("business:part:save")
     public R save(@RequestBody PartEntity part){
+        part.setCreateUser(this.getUserId());
+        part.setCreateTime(new Date());
 		partService.save(part);
 
         return R.ok();
@@ -72,6 +75,8 @@ public class PartController extends AbstractController {
     @RequestMapping("/update")
     @RequiresPermissions("business:part:update")
     public R update(@RequestBody PartEntity part){
+        part.setModifyUser(this.getUserId());
+        part.setModifyTime(new Date());
 		partService.updateById(part);
 
         return R.ok();

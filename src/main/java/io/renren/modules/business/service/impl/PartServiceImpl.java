@@ -1,5 +1,6 @@
 package io.renren.modules.business.service.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -18,12 +19,18 @@ public class PartServiceImpl extends ServiceImpl<PartDao, PartEntity> implements
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
+        QueryWrapper<PartEntity> queryWrapper = new QueryWrapper<>();
+
+        String key = params.get("key").toString();
+        if (StringUtils.isNotBlank(key)) {
+            queryWrapper.lambda().like(PartEntity::getName, key);
+        }
+
         IPage<PartEntity> page = this.page(
                 new Query<PartEntity>().getPage(params),
-                new QueryWrapper<PartEntity>()
+                queryWrapper
         );
 
         return new PageUtils(page);
     }
-
 }

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.modules.business.dao.ContractorDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="io.renren.modules.business.entity.ContractorEntity" id="contractorMap">
+        <result property="contractorId" column="contractor_id"/>
+        <result property="contractorName" column="contractor_name"/>
+        <result property="phone" column="phone"/>
+        <result property="address" column="address"/>
+        <result property="bank" column="bank"/>
+        <result property="cardNo" column="card_no"/>
+        <result property="delState" column="del_state"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createUser" column="create_user"/>
+        <result property="modifyTime" column="modify_time"/>
+        <result property="modifyUser" column="modify_user"/>
+    </resultMap>
+
+
+</mapper>

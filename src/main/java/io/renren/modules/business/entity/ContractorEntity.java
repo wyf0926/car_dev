@@ -4,57 +4,47 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 
-import java.math.BigDecimal;
 import java.io.Serializable;
 import java.util.Date;
 import lombok.Data;
 
 /**
- * 客户表
-
+ * 承修方表
  * 
- * @author allan
- * @email zwy1997213@163.com
- * @date 2021-02-21 11:09:30
+ * @author yifan
+ * @email wyf0926@seas.upenn.edu
+ * @date 2021-02-26 15:59:13
  */
 @Data
-@TableName("customer")
-public class CustomerEntity implements Serializable {
+@TableName("contractor")
+public class ContractorEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * 客户id
+	 * 承修方id
 	 */
 	@TableId
-	private Long customerId;
+	private Long contractorId;
 	/**
-	 * 客户姓名
+	 * 单位名称
 	 */
-	private String name;
+	private String contractorName;
 	/**
-	 * 客户类型:1.个人，2.公司
-	 */
-	private Integer type;
-	/**
-	 * 联系方式
+	 * 联系电话
 	 */
 	private String phone;
 	/**
-	 * 地址
+	 * 单位地址
 	 */
 	private String address;
 	/**
-	 * 银行卡号
-	 */
-	private String cardNo;
-	/**
-	 * 银行卡开户行
+	 * 开户银行
 	 */
 	private String bank;
 	/**
-	 * 历史消费金额
+	 * 银行账号
 	 */
-	private BigDecimal total;
+	private String cardNo;
 	/**
 	 * 删除状态:0.未删除，1.已删除
 	 */
@@ -67,7 +57,7 @@ public class CustomerEntity implements Serializable {
 	/**
 	 * 创建人
 	 */
-	private Long createUser;
+	private Integer createUser;
 	/**
 	 * 修改时间
 	 */
@@ -75,6 +65,6 @@ public class CustomerEntity implements Serializable {
 	/**
 	 * 修改人
 	 */
-	private Long modifyUser;
+	private Integer modifyUser;
 
 }

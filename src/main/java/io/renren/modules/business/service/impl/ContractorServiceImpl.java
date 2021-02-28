@@ -8,19 +8,19 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.Query;
 
-import io.renren.modules.business.dao.OrderDao;
-import io.renren.modules.business.entity.OrderEntity;
-import io.renren.modules.business.service.OrderService;
+import io.renren.modules.business.dao.ContractorDao;
+import io.renren.modules.business.entity.ContractorEntity;
+import io.renren.modules.business.service.ContractorService;
 
 
-@Service("orderService")
-public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> implements OrderService {
+@Service("contractorService")
+public class ContractorServiceImpl extends ServiceImpl<ContractorDao, ContractorEntity> implements ContractorService {
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
-        IPage<OrderEntity> page = this.page(
-                new Query<OrderEntity>().getPage(params),
-                new QueryWrapper<OrderEntity>()
+        IPage<ContractorEntity> page = this.page(
+                new Query<ContractorEntity>().getPage(params),
+                new QueryWrapper<ContractorEntity>()
         );
 
         return new PageUtils(page);

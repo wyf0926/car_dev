@@ -11,34 +11,33 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.renren.modules.business.entity.OrderEntity;
-import io.renren.modules.business.service.OrderService;
+import io.renren.modules.business.entity.MaItemsEntity;
+import io.renren.modules.business.service.MaItemsService;
 import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.R;
 
 
 
 /**
- * 维修单表
-
+ * 维修项目表
  *
  * @author yifan
  * @email wyf0926@seas.upenn.edu
- * @date 2021-02-28 13:30:42
+ * @date 2021-02-26 15:59:13
  */
 @RestController
-@RequestMapping("business/order")
-public class OrderController {
+@RequestMapping("business/maitems")
+public class MaItemsController {
     @Autowired
-    private OrderService orderService;
+    private MaItemsService maItemsService;
 
     /**
      * 列表
      */
     @RequestMapping("/list")
-    @RequiresPermissions("business:order:list")
+    @RequiresPermissions("business:maitems:list")
     public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = orderService.queryPage(params);
+        PageUtils page = maItemsService.queryPage(params);
 
         return R.ok().put("page", page);
     }
@@ -47,21 +46,21 @@ public class OrderController {
     /**
      * 信息
      */
-    @RequestMapping("/info/{orderId}")
-    @RequiresPermissions("business:order:info")
-    public R info(@PathVariable("orderId") Integer orderId){
-		OrderEntity order = orderService.getById(orderId);
+    @RequestMapping("/info/{itemId}")
+    @RequiresPermissions("business:maitems:info")
+    public R info(@PathVariable("itemId") Integer itemId){
+		MaItemsEntity maItems = maItemsService.getById(itemId);
 
-        return R.ok().put("order", order);
+        return R.ok().put("maItems", maItems);
     }
 
     /**
      * 保存
      */
     @RequestMapping("/save")
-    @RequiresPermissions("business:order:save")
-    public R save(@RequestBody OrderEntity order){
-		orderService.save(order);
+    @RequiresPermissions("business:maitems:save")
+    public R save(@RequestBody MaItemsEntity maItems){
+		maItemsService.save(maItems);
 
         return R.ok();
     }
@@ -70,9 +69,9 @@ public class OrderController {
      * 修改
      */
     @RequestMapping("/update")
-    @RequiresPermissions("business:order:update")
-    public R update(@RequestBody OrderEntity order){
-		orderService.updateById(order);
+    @RequiresPermissions("business:maitems:update")
+    public R update(@RequestBody MaItemsEntity maItems){
+		maItemsService.updateById(maItems);
 
         return R.ok();
     }
@@ -81,9 +80,9 @@ public class OrderController {
      * 删除
      */
     @RequestMapping("/delete")
-    @RequiresPermissions("business:order:delete")
-    public R delete(@RequestBody Integer[] orderIds){
-		orderService.removeByIds(Arrays.asList(orderIds));
+    @RequiresPermissions("business:maitems:delete")
+    public R delete(@RequestBody Integer[] itemIds){
+		maItemsService.removeByIds(Arrays.asList(itemIds));
 
         return R.ok();
     }

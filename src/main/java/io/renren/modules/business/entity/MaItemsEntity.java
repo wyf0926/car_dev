@@ -10,51 +10,30 @@ import java.util.Date;
 import lombok.Data;
 
 /**
- * 客户表
-
+ * 维修项目表
  * 
- * @author allan
- * @email zwy1997213@163.com
- * @date 2021-02-21 11:09:30
+ * @author yifan
+ * @email wyf0926@seas.upenn.edu
+ * @date 2021-02-26 15:59:13
  */
 @Data
-@TableName("customer")
-public class CustomerEntity implements Serializable {
+@TableName("ma_items")
+public class MaItemsEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * 客户id
+	 * 维修项目id
 	 */
 	@TableId
-	private Long customerId;
+	private Long itemId;
 	/**
-	 * 客户姓名
+	 * 维修项目
 	 */
-	private String name;
+	private String item;
 	/**
-	 * 客户类型:1.个人，2.公司
+	 * 维修项目单价
 	 */
-	private Integer type;
-	/**
-	 * 联系方式
-	 */
-	private String phone;
-	/**
-	 * 地址
-	 */
-	private String address;
-	/**
-	 * 银行卡号
-	 */
-	private String cardNo;
-	/**
-	 * 银行卡开户行
-	 */
-	private String bank;
-	/**
-	 * 历史消费金额
-	 */
-	private BigDecimal total;
+	private BigDecimal unitPrice;
 	/**
 	 * 删除状态:0.未删除，1.已删除
 	 */
@@ -67,7 +46,7 @@ public class CustomerEntity implements Serializable {
 	/**
 	 * 创建人
 	 */
-	private Long createUser;
+	private Integer createUser;
 	/**
 	 * 修改时间
 	 */
@@ -75,6 +54,6 @@ public class CustomerEntity implements Serializable {
 	/**
 	 * 修改人
 	 */
-	private Long modifyUser;
+	private Integer modifyUser;
 
 }

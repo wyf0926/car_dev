@@ -12,9 +12,9 @@ import lombok.Data;
  * 维修单表
 
  * 
- * @author allan
- * @email zwy1997213@163.com
- * @date 2021-02-21 11:09:31
+ * @author yifan
+ * @email wyf0926@seas.upenn.edu
+ * @date 2021-02-28 13:30:42
  */
 @Data
 @TableName("order")
@@ -27,25 +27,49 @@ public class OrderEntity implements Serializable {
 	@TableId
 	private Long orderId;
 	/**
-	 * 维修单号
+	 * 维修编号
 	 */
-	private Long orderNo;
+	private String orderNo;
 	/**
-	 * 客户编号
+	 * 客户ID
 	 */
 	private Long customerId;
 	/**
-	 * 结算日期
+	 * 送修人
 	 */
-	private Date orderTime;
+	private String driver;
 	/**
 	 * 车牌号码
 	 */
 	private String carPlate;
 	/**
-	 * 发动机号
+	 * 厂牌型号
 	 */
-	private String engine;
+	private String carModel;
+	/**
+	 * 维修类别
+	 */
+	private String category;
+	/**
+	 * 进厂日期
+	 */
+	private Date incomingDate;
+	/**
+	 * 车架号
+	 */
+	private String vin;
+	/**
+	 * 出厂里程表读数
+	 */
+	private Integer mileageAfter;
+	/**
+	 * 联系电话
+	 */
+	private String phone;
+	/**
+	 * 承修方id
+	 */
+	private Integer contractorId;
 	/**
 	 * 支付方式:0.现金，1.银行，2.移动支付
 	 */
@@ -59,14 +83,6 @@ public class OrderEntity implements Serializable {
 	 */
 	private String comment;
 	/**
-	 * 工时费
-	 */
-	private BigDecimal fee;
-	/**
-	 * 维修人
-	 */
-	private String worker;
-	/**
 	 * 删除状态:0.未删除，1.已删除
 	 */
 	private Integer delState;
@@ -77,7 +93,7 @@ public class OrderEntity implements Serializable {
 	/**
 	 * 创建人
 	 */
-	private Long createUser;
+	private Integer createUser;
 	/**
 	 * 修改时间
 	 */
@@ -85,6 +101,6 @@ public class OrderEntity implements Serializable {
 	/**
 	 * 修改人
 	 */
-	private Long modifyUser;
+	private Integer modifyUser;
 
 }

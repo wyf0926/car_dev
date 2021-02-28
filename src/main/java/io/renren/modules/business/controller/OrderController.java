@@ -1,8 +1,13 @@
 package io.renren.modules.business.controller;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Map;
 
+import io.renren.modules.business.vo.OrdersVo;
+import io.renren.modules.sys.controller.AbstractController;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.renren.modules.business.entity.OrderEntity;
+import io.renren.modules.business.entity.OrdersEntity;
 import io.renren.modules.business.service.OrderService;
 import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.R;
@@ -28,7 +33,8 @@ import io.renren.common.utils.R;
  */
 @RestController
 @RequestMapping("business/order")
-public class OrderController {
+@Api("维修单相关接口")
+public class OrderController extends AbstractController {
     @Autowired
     private OrderService orderService;
 
@@ -49,8 +55,8 @@ public class OrderController {
      */
     @RequestMapping("/info/{orderId}")
     @RequiresPermissions("business:order:info")
-    public R info(@PathVariable("orderId") Integer orderId){
-		OrderEntity order = orderService.getById(orderId);
+    public R info(@PathVariable("orderId") Long orderId){
+		OrdersVo order = orderService.getOrderDetailById(orderId);
 
         return R.ok().put("order", order);
     }
@@ -60,8 +66,11 @@ public class OrderController {
      */
     @RequestMapping("/save")
     @RequiresPermissions("business:order:save")
-    public R save(@RequestBody OrderEntity order){
-		orderService.save(order);
+    @ApiOperation("新增维修单接口测试")
+    public R save(@RequestBody OrdersVo order){
+        order.setCreateTime(new Date());
+        order.setCreateUser(this.getUserId());
+		orderService.saveOrder(order);
 
         return R.ok();
     }
@@ -71,7 +80,7 @@ public class OrderController {
      */
     @RequestMapping("/update")
     @RequiresPermissions("business:order:update")
-    public R update(@RequestBody OrderEntity order){
+    public R update(@RequestBody OrdersEntity order){
 		orderService.updateById(order);
 
         return R.ok();

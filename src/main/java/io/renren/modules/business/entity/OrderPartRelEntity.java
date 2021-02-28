@@ -46,4 +46,9 @@ public class OrderPartRelEntity implements Serializable {
 	 */
 	private BigDecimal totalAmount;
 
+	/**
+	 * 备注
+	 */
+	private String comment;
+
 }

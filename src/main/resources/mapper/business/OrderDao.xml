@@ -4,7 +4,7 @@
 <mapper namespace="io.renren.modules.business.dao.OrderDao">
 
 	<!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="io.renren.modules.business.entity.OrderEntity" id="orderMap">
+    <resultMap type="io.renren.modules.business.entity.OrdersEntity" id="orderMap">
         <result property="orderId" column="order_id"/>
         <result property="orderNo" column="order_no"/>
         <result property="customerId" column="customer_id"/>
@@ -17,6 +17,7 @@
         <result property="mileageAfter" column="mileage_after"/>
         <result property="phone" column="phone"/>
         <result property="contractorId" column="contractor_id"/>
+        <result property="payDate" column="pay_date"/>
         <result property="payType" column="pay_type"/>
         <result property="totalAmount" column="total_amount"/>
         <result property="comment" column="comment"/>
@@ -26,6 +27,9 @@
         <result property="modifyTime" column="modify_time"/>
         <result property="modifyUser" column="modify_user"/>
     </resultMap>
+    <select id="selectOrderDetailById" resultType="io.renren.modules.business.vo.OrdersVo">
+
+    </select>
 
 
 </mapper>

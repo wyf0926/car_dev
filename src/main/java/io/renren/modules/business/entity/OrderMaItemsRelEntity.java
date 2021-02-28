@@ -24,15 +24,15 @@ public class OrderMaItemsRelEntity implements Serializable {
 	 * 关联id
 	 */
 	@TableId
-	private Integer relId;
+	private Long relId;
 	/**
 	 * 维修单id
 	 */
-	private Integer orderId;
+	private Long orderId;
 	/**
 	 * 维修项目id
 	 */
-	private Integer maItemId;
+	private String maItem;
 	/**
 	 * 维修工时
 	 */

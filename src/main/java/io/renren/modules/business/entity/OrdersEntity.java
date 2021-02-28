@@ -1,6 +1,7 @@
 package io.renren.modules.business.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.math.BigDecimal;
@@ -17,8 +18,8 @@ import lombok.Data;
  * @date 2021-02-28 13:30:42
  */
 @Data
-@TableName("order")
-public class OrderEntity implements Serializable {
+@TableName("orders")
+public class OrdersEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -53,7 +54,7 @@ public class OrderEntity implements Serializable {
 	/**
 	 * 进厂日期
 	 */
-	private Date incomingDate;
+	private String incomingDate;
 	/**
 	 * 车架号
 	 */
@@ -69,7 +70,11 @@ public class OrderEntity implements Serializable {
 	/**
 	 * 承修方id
 	 */
-	private Integer contractorId;
+	private Long contractorId;
+	/**
+	 * 结算日期
+	 */
+	private String payDate;
 	/**
 	 * 支付方式:0.现金，1.银行，2.移动支付
 	 */
@@ -85,6 +90,7 @@ public class OrderEntity implements Serializable {
 	/**
 	 * 删除状态:0.未删除，1.已删除
 	 */
+	@TableLogic
 	private Integer delState;
 	/**
 	 * 创建时间
@@ -93,7 +99,7 @@ public class OrderEntity implements Serializable {
 	/**
 	 * 创建人
 	 */
-	private Integer createUser;
+	private Long createUser;
 	/**
 	 * 修改时间
 	 */

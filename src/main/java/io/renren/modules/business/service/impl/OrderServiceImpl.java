@@ -48,13 +48,14 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrdersEntity> implem
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public OrdersVo saveOrder(OrdersVo order) {
         OrdersEntity ordersEntity = new OrdersEntity();
         BeanUtil.copyProperties(order, ordersEntity);
         //插入维修单基本信息
-        if (this.baseMapper.insert(ordersEntity) != 1)
+        if (this.baseMapper.insert(ordersEntity) != 1) {
             throw new RRException("插入维修单表时发现未知异常！");
+        }
         //插入相关配件信息
         for (PartEntity partEntity : order.getPartList()) {
             OrderPartRelEntity orderPartRelEntity = new OrderPartRelEntity();
@@ -69,8 +70,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrdersEntity> implem
         }
         //插入相关维修项目
         for (OrderMaItemsRelEntity orderMaItemsRelEntity : order.getOrderMaItemsRelEntities()) {
-            if (this.orderMaItemsRelDao.insert(orderMaItemsRelEntity) != 1)
+            if (this.orderMaItemsRelDao.insert(orderMaItemsRelEntity) != 1) {
                 throw new RRException("插入维修项目表时发现未知异常！");
+            }
         }
         return order;
     }

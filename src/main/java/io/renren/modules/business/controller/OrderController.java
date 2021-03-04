@@ -4,23 +4,20 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
 
+import io.renren.common.utils.SequenceService;
 import io.renren.modules.business.vo.OrdersVo;
 import io.renren.modules.sys.controller.AbstractController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import io.renren.modules.business.entity.OrdersEntity;
 import io.renren.modules.business.service.OrderService;
 import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.R;
 
+import javax.annotation.Resource;
 
 
 /**
@@ -35,8 +32,10 @@ import io.renren.common.utils.R;
 @RequestMapping("business/order")
 @Api("维修单相关接口")
 public class OrderController extends AbstractController {
-    @Autowired
+    @Resource
     private OrderService orderService;
+    @Resource
+    private SequenceService sequenceService;
 
     /**
      * 列表
@@ -59,6 +58,18 @@ public class OrderController extends AbstractController {
 		OrdersVo order = orderService.getOrderDetailById(orderId);
 
         return R.ok().put("order", order);
+    }
+
+    /**
+     * 生成订单编号
+     * @return
+     */
+    @GetMapping("/serial")
+    @RequiresPermissions("business:order:info")
+    public R getOrderNo(){
+        String orderNo = sequenceService.getID(SequenceService.ID_Prefix.ORDER);
+
+        return R.ok().put("orderNo", orderNo);
     }
 
     /**

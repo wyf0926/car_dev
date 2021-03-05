@@ -1,10 +1,13 @@
 package io.renren.modules.business.controller;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import io.renren.common.exception.RRException;
+import io.renren.modules.sys.controller.AbstractController;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +28,7 @@ import io.renren.common.utils.R;
  */
 @RestController
 @RequestMapping("business/seriesitem")
-public class SeriesItemController {
+public class SeriesItemController extends AbstractController {
     @Autowired
     private SeriesItemService seriesItemService;
 
@@ -62,9 +65,13 @@ public class SeriesItemController {
      */
     @RequestMapping("/save")
     public R save(@RequestBody SeriesItemEntity seriesItem){
-		seriesItemService.save(seriesItem);
-
-        return R.ok();
+        seriesItem.setCreateUser(this.getUserId());
+        seriesItem.setCreateTime(new Date());
+        if(seriesItemService.saveSeriesItem(seriesItem)){
+            return R.ok();
+        }else {
+            return R.error();
+        }
     }
 
     /**
@@ -72,9 +79,15 @@ public class SeriesItemController {
      */
     @RequestMapping("/update")
     public R update(@RequestBody SeriesItemEntity seriesItem){
-		seriesItemService.updateById(seriesItem);
+        seriesItem.setModifyUser(this.getUserId());
+        seriesItem.setModifyTime(new Date());
+		if(seriesItemService.updateSeriesItem(seriesItem)){
+            return R.ok();
+        }else {
+		    return R.error();
+        }
 
-        return R.ok();
+
     }
 
     /**
@@ -82,9 +95,13 @@ public class SeriesItemController {
      */
     @RequestMapping("/delete")
     public R delete(@RequestBody Long[] itemIds){
-		seriesItemService.removeByIds(Arrays.asList(itemIds));
+		if(seriesItemService.removeByItemIds(Arrays.asList(itemIds))){
+            return R.ok();
+        }else {
+		    return R.error();
+        }
 
-        return R.ok();
+
     }
 
 }

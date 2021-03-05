@@ -1,8 +1,10 @@
 package io.renren.modules.sys.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
+import io.renren.modules.sys.vo.DictItemVo;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +41,7 @@ public class SysDictItemController {
     }
 
     /**
-     * 根据字典id获取字典项列表
+     * 根据字典id获取字典项分页列表
      */
     @GetMapping
     @RequiresPermissions("business:sysdict:list")
@@ -49,6 +51,13 @@ public class SysDictItemController {
         return R.ok().put("page", page);
     }
 
+    @GetMapping("/{dictId}")
+    @RequiresPermissions("business:sysdict:list")
+    public R listItem(@PathVariable("dictId") Long dictId){
+        List<DictItemVo> dictList = sysDictItemService.queryItemList(dictId);
+
+        return R.ok().put("dictList", dictList);
+    }
 
     /**
      * 信息

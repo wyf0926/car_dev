@@ -1,5 +1,6 @@
 package io.renren.modules.sys.service.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -18,9 +19,28 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictDao, SysDictEntity> i
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
+
+        QueryWrapper<SysDictEntity> sysDictEntityQueryWrapper = new QueryWrapper<>();
+
+        Object nameObj = params.get("dictName");
+        if(nameObj != null){
+            String dictName = nameObj.toString();
+            if(StringUtils.isNotBlank(dictName)){
+                sysDictEntityQueryWrapper.lambda().like(SysDictEntity::getDictName,dictName);
+            }
+        }
+
+        Object codeObj = params.get("dictCode");
+        if(codeObj != null){
+            String dictCode = codeObj.toString();
+            if(StringUtils.isNotBlank(dictCode)){
+                sysDictEntityQueryWrapper.lambda().like(SysDictEntity::getDictCode,dictCode);
+            }
+        }
+
         IPage<SysDictEntity> page = this.page(
                 new Query<SysDictEntity>().getPage(params),
-                new QueryWrapper<SysDictEntity>()
+                sysDictEntityQueryWrapper
         );
 
         return new PageUtils(page);

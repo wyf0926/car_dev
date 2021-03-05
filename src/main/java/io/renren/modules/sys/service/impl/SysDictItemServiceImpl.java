@@ -1,6 +1,9 @@
 package io.renren.modules.sys.service.impl;
 
+import io.renren.modules.sys.vo.DictItemVo;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -36,6 +39,11 @@ public class SysDictItemServiceImpl extends ServiceImpl<SysDictItemDao, SysDictI
         );
 
         return new PageUtils(page);
+    }
+
+    @Override
+    public List<DictItemVo> queryItemList(Long dictId) {
+        return this.baseMapper.selectItemList(dictId);
     }
 
 }

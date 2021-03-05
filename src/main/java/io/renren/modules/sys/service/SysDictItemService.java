@@ -3,7 +3,9 @@ package io.renren.modules.sys.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import io.renren.common.utils.PageUtils;
 import io.renren.modules.sys.entity.SysDictItemEntity;
+import io.renren.modules.sys.vo.DictItemVo;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,5 +20,7 @@ public interface SysDictItemService extends IService<SysDictItemEntity> {
     PageUtils queryPage(Map<String, Object> params);
 
     PageUtils queryItemPage(Map<String, Object> params);
+
+    List<DictItemVo> queryItemList(Long dictId);
 }
 

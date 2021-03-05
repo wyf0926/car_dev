@@ -1,6 +1,7 @@
 package io.renren.modules.business.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.math.BigDecimal;
@@ -40,6 +41,7 @@ public class SeriesItemEntity implements Serializable {
 	/**
 	 * 删除状态:0.未删除，1.已删除
 	 */
+	@TableLogic
 	private Integer delState;
 	/**
 	 * 创建时间

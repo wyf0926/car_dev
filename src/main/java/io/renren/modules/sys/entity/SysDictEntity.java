@@ -1,6 +1,7 @@
 package io.renren.modules.sys.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
@@ -39,6 +40,7 @@ public class SysDictEntity implements Serializable {
 	/**
 	 * 删除状态
 	 */
+	@TableLogic
 	private Integer delFlag;
 	/**
 	 * 创建人

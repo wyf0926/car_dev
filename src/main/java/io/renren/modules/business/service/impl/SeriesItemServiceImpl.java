@@ -52,9 +52,15 @@ public class SeriesItemServiceImpl extends ServiceImpl<SeriesItemDao, SeriesItem
         if(list.size() > 0){
             throw new RRException("错误:该车系下已有该车款,请勿重复创建!",501);
         }
-        if(!refreshPriceRange(seriesItem)){
-            throw new RRException("错误:发生位置异常,请联系系统管理员!",501);
+
+        if(1 != this.baseMapper.insert(seriesItem)){
+            throw new RRException("错误:新增时发生未知异常,请联系系统管理员!",501);
         }
+
+        if(!refreshPriceRange(seriesItem.getSeriesId())){
+            throw new RRException("错误:发生未知异常,请联系系统管理员!",501);
+        }
+
         return this.baseMapper.insert(seriesItem) == 1;
     }
 
@@ -70,22 +76,12 @@ public class SeriesItemServiceImpl extends ServiceImpl<SeriesItemDao, SeriesItem
             throw new RRException("错误:该车系下已有该车款,请勿重复创建!",501);
         }
 
-        List<SeriesItemEntity> itemList = this.baseMapper.selectList(
-                new QueryWrapper<SeriesItemEntity>().lambda()
-                        .eq(SeriesItemEntity::getSeriesId, seriesItem.getSeriesId()));
+        if(1 != this.baseMapper.updateById(seriesItem)){
+            throw new RRException("错误:更新时发生未知异常,请联系系统管理员!",501);
+        }
 
-        if(itemList.size() == 1){
-            BigDecimal referPrice = seriesItem.getReferPrice();
-            SeriesEntity seriesEntity = seriesDao.selectById(seriesItem.getSeriesId());
-            seriesEntity.setSeriesFctMaxPrice(referPrice);
-            seriesEntity.setSeriesFctMinPrice(referPrice);
-            if(1 != seriesDao.updateById(seriesEntity)){
-                throw new RRException("错误:发生未知异常,请联系系统管理员!",501);
-            }
-        }else {
-            if(!refreshPriceRange(seriesItem)){
-                throw new RRException("错误:发生未知异常,请联系系统管理员!",501);
-            }
+        if(!refreshPriceRange(seriesItem.getSeriesId())){
+            throw new RRException("错误:发生未知异常,请联系系统管理员!",501);
         }
 
         return this.baseMapper.updateById(seriesItem) == 1;
@@ -98,22 +94,7 @@ public class SeriesItemServiceImpl extends ServiceImpl<SeriesItemDao, SeriesItem
         int delCount = this.baseMapper.deleteBatchIds(itemIdList);
         // 重新计算价格区间
         if(itemIdList.get(0) != null){
-            SeriesEntity seriesEntity = seriesDao.selectById(seriesId);
-            List<BigDecimal> priceList = this.baseMapper.selectObjs(
-                    new LambdaQueryWrapper<SeriesItemEntity>()
-                            .select(SeriesItemEntity::getReferPrice)
-                            .eq(SeriesItemEntity::getSeriesId, seriesId))
-                    .stream()
-                    .map(o -> (BigDecimal) o)
-                    .collect(Collectors.toList());
-            if (priceList.size() == 0){
-                seriesEntity.setSeriesFctMinPrice(BigDecimal.ZERO);
-                seriesEntity.setSeriesFctMaxPrice(BigDecimal.ZERO);
-            }else {
-                seriesEntity.setSeriesFctMaxPrice(Collections.max(priceList));
-                seriesEntity.setSeriesFctMinPrice(Collections.min(priceList));
-            }
-            if(1 != seriesDao.updateById(seriesEntity)){
+            if(!refreshPriceRange(seriesId)){
                 throw new RRException("错误:发生未知异常,请联系系统管理员!",501);
             }
         }
@@ -123,28 +104,26 @@ public class SeriesItemServiceImpl extends ServiceImpl<SeriesItemDao, SeriesItem
     /**
      * 刷新价格区间
      *
-     * @param seriesItem
+     * @param seriesId
      * @return
      */
-    private Boolean refreshPriceRange(SeriesItemEntity seriesItem) {
-        BigDecimal referPrice = seriesItem.getReferPrice();
-
-        if(!(BigDecimal.ZERO).equals(referPrice)){
-            SeriesEntity seriesEntity = seriesDao.selectById(seriesItem.getSeriesId());
-            BigDecimal max = seriesEntity.getSeriesFctMaxPrice();
-            BigDecimal min = seriesEntity.getSeriesFctMinPrice();
-            if(referPrice.compareTo(max) == 1){
-                seriesEntity.setSeriesFctMaxPrice(referPrice);
-            }
-            if((BigDecimal.ZERO).equals(min)){
-                seriesEntity.setSeriesFctMinPrice(referPrice);
-            }else{
-                if(referPrice.compareTo(min) == -1){
-                    seriesEntity.setSeriesFctMinPrice(referPrice);
-                }
-            }
-            return seriesDao.updateById(seriesEntity) == 1;
+    private Boolean refreshPriceRange(Long seriesId) {
+        SeriesEntity seriesEntity = seriesDao.selectById(seriesId);
+        List<BigDecimal> priceList = this.baseMapper.selectObjs(
+                new LambdaQueryWrapper<SeriesItemEntity>()
+                        .select(SeriesItemEntity::getReferPrice)
+                        .eq(SeriesItemEntity::getSeriesId, seriesId))
+                .stream()
+                .map(o -> (BigDecimal) o)
+                .collect(Collectors.toList());
+        if (priceList.size() == 0){
+            seriesEntity.setSeriesFctMinPrice(BigDecimal.ZERO);
+            seriesEntity.setSeriesFctMaxPrice(BigDecimal.ZERO);
+        }else {
+            seriesEntity.setSeriesFctMaxPrice(Collections.max(priceList));
+            seriesEntity.setSeriesFctMinPrice(Collections.min(priceList));
         }
-        return true;
+        return seriesDao.updateById(seriesEntity) == 1;
     }
+
 }

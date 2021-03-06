@@ -16,5 +16,9 @@ import java.util.Map;
 public interface SysDictService extends IService<SysDictEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    boolean saveSysDictItem(SysDictEntity sysDict);
+
+    boolean updateDictById(SysDictEntity sysDict);
 }
 

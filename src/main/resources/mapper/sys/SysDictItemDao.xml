@@ -19,7 +19,18 @@
     </resultMap>
 
     <select id="selectItemList" resultType="io.renren.modules.sys.vo.DictItemVo">
-        select item_text,item_value from sys_dict_item where dict_id = #{dictId}
+        select item_text, item_value from sys_dict_item where dict_id = #{dictId}
+    </select>
+    <select id="selectItemListByCode" resultType="io.renren.modules.sys.vo.DictItemVo">
+        SELECT
+            item_text,
+            item_value
+        FROM
+            sys_dict_item,
+            sys_dict
+        WHERE
+            dict_id = sys_dict.id
+          AND sys_dict.dict_code = #{dictCode};
     </select>
 
 

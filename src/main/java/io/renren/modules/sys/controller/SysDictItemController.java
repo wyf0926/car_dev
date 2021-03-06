@@ -1,6 +1,7 @@
 package io.renren.modules.sys.controller;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +16,6 @@ import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.R;
 
 
-
 /**
  * 
  *
@@ -25,7 +25,8 @@ import io.renren.common.utils.R;
  */
 @RestController
 @RequestMapping("sys/sysdictitem")
-public class SysDictItemController {
+public class SysDictItemController extends AbstractController {
+
     @Autowired
     private SysDictItemService sysDictItemService;
 
@@ -59,6 +60,14 @@ public class SysDictItemController {
         return R.ok().put("dictList", dictList);
     }
 
+    @GetMapping("/itemlist")
+    @RequiresPermissions("business:sysdict:list")
+    public R listItem(@RequestParam("dictCode") String dictCode){
+        List<DictItemVo> dictList = sysDictItemService.queryItemListByCode(dictCode);
+
+        return R.ok().put("dictList", dictList);
+    }
+
     /**
      * 信息
      */
@@ -76,9 +85,12 @@ public class SysDictItemController {
     @RequestMapping("/save")
     @RequiresPermissions("business:sysdict:save")
     public R save(@RequestBody SysDictItemEntity sysDictItem){
-		sysDictItemService.save(sysDictItem);
-
-        return R.ok();
+		sysDictItem.setCreateBy(this.getUserId());
+        sysDictItem.setCreateTime(new Date());
+        if (sysDictItemService.saveDictItem(sysDictItem)) {
+            return R.ok();
+        }
+        return R.error();
     }
 
     /**
@@ -87,9 +99,12 @@ public class SysDictItemController {
     @RequestMapping("/update")
     @RequiresPermissions("business:sysdict:update")
     public R update(@RequestBody SysDictItemEntity sysDictItem){
-		sysDictItemService.updateById(sysDictItem);
-
-        return R.ok();
+        sysDictItem.setUpdateBy(this.getUserId());
+        sysDictItem.setUpdateTime(new Date());
+        if (sysDictItemService.updateDictItemById(sysDictItem)) {
+            return R.ok();
+        }
+        return R.error();
     }
 
     /**

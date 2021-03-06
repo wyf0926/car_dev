@@ -22,5 +22,11 @@ public interface SysDictItemService extends IService<SysDictItemEntity> {
     PageUtils queryItemPage(Map<String, Object> params);
 
     List<DictItemVo> queryItemList(Long dictId);
+
+    boolean saveDictItem(SysDictItemEntity sysDictItem);
+
+    boolean updateDictItemById(SysDictItemEntity sysDictItem);
+
+    List<DictItemVo> queryItemListByCode(String dictCode);
 }
 

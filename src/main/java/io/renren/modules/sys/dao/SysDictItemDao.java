@@ -19,4 +19,6 @@ import java.util.List;
 public interface SysDictItemDao extends BaseMapper<SysDictItemEntity> {
 
     List<DictItemVo> selectItemList(@Param("dictId") Long dictId);
+
+    List<DictItemVo> selectItemListByCode(@Param("dictCode") String dictCode);
 }

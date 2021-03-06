@@ -16,7 +16,7 @@ import java.util.List;
 @Data
 public class OrdersVo extends OrdersEntity {
 
-    private List<PartEntity> partList;
+    private List<PartVo> partList;
 
     private List<OrderMaItemsRelEntity> orderMaItemsRelEntities;
 

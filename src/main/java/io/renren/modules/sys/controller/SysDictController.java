@@ -1,8 +1,15 @@
 package io.renren.modules.sys.controller;
 
 import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import io.renren.common.exception.RRException;
+import io.renren.modules.sys.entity.SysDictItemEntity;
+import io.renren.modules.sys.service.SysDictItemService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,10 +34,12 @@ import io.renren.common.utils.R;
  */
 @RestController
 @RequestMapping("sys/sysdict")
-public class SysDictController {
+public class SysDictController extends AbstractController {
     @Autowired
     private SysDictService sysDictService;
 
+    @Autowired
+    private SysDictItemService sysDictItemService;
     /**
      * 列表
      */
@@ -60,9 +69,13 @@ public class SysDictController {
     @RequestMapping("/save")
     @RequiresPermissions("business:sysdict:save")
     public R save(@RequestBody SysDictEntity sysDict){
-		sysDictService.save(sysDict);
 
-        return R.ok();
+        sysDict.setCreateBy(this.getUserId());
+        sysDict.setCreateTime(new Date());
+        if(sysDictService.saveSysDictItem(sysDict)) {
+            return R.ok();
+        }
+        return R.error();
     }
 
     /**
@@ -71,9 +84,12 @@ public class SysDictController {
     @RequestMapping("/update")
     @RequiresPermissions("business:sysdict:update")
     public R update(@RequestBody SysDictEntity sysDict){
-		sysDictService.updateById(sysDict);
-
-        return R.ok();
+		sysDict.setUpdateBy(this.getUserId());
+        sysDict.setUpdateTime(new Date());
+        if (sysDictService.updateDictById(sysDict)) {
+            return R.ok();
+        }
+        return R.error();
     }
 
     /**
@@ -82,8 +98,13 @@ public class SysDictController {
     @RequestMapping("/delete")
     @RequiresPermissions("business:sysdict:delete")
     public R delete(@RequestBody String[] ids){
-		sysDictService.removeByIds(Arrays.asList(ids));
-
+        List<String> list = Arrays.asList(ids);
+        List<SysDictItemEntity> sysDictItems = sysDictItemService.list(new LambdaQueryWrapper<SysDictItemEntity>()
+                .in(SysDictItemEntity::getDictId, list));
+        if (!sysDictItems.isEmpty()) {
+            throw new RRException("删除失败，请先删除该字典里的字典项！", 501);
+        }
+        sysDictService.removeByIds(Arrays.asList(ids));
         return R.ok();
     }
 

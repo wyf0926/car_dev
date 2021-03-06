@@ -40,7 +40,7 @@ public class OrderPartRelEntity implements Serializable {
 	/**
 	 * 使用数量
 	 */
-	private Integer usedQuantity;
+	private BigDecimal usedQuantity;
 	/**
 	 * 配件总价
 	 */

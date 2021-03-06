@@ -1,7 +1,12 @@
 package io.renren.modules.sys.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import io.renren.common.exception.RRException;
+import io.renren.common.utils.R;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -44,6 +49,30 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictDao, SysDictEntity> i
         );
 
         return new PageUtils(page);
+    }
+
+    @Override
+    public boolean saveSysDictItem(SysDictEntity sysDict) {
+        List<SysDictEntity> dictNames = this.list(new QueryWrapper<SysDictEntity>()
+                .lambda().eq(SysDictEntity::getDictName, sysDict.getDictName()));
+        List<SysDictEntity> dictCodes = this.list(new QueryWrapper<SysDictEntity>()
+                .lambda().eq(SysDictEntity::getDictCode, sysDict.getDictCode()));
+        if (!dictNames.isEmpty() || !dictCodes.isEmpty()) {
+            throw new RRException("错误：该字典已存在，请勿重复创建！", 501);
+        }
+        return this.save(sysDict);
+    }
+
+    @Override
+    public boolean updateDictById(SysDictEntity sysDict) {
+        List<SysDictEntity> dictNames = this.list(new LambdaQueryWrapper<SysDictEntity>().
+                eq(SysDictEntity::getDictName, sysDict.getDictName()).ne(SysDictEntity::getId, sysDict.getId()));
+        List<SysDictEntity> dictCodes = this.list(new LambdaQueryWrapper<SysDictEntity>().
+                eq(SysDictEntity::getDictCode, sysDict.getDictCode()).ne(SysDictEntity::getId, sysDict.getId()));
+        if (!dictNames.isEmpty() || !dictCodes.isEmpty()) {
+            throw new RRException("错误：该字典已存在，请重新修改！", 501);
+        }
+        return this.updateById(sysDict);
     }
 
 }

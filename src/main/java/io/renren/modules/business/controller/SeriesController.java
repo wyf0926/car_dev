@@ -123,5 +123,4 @@ public class SeriesController extends AbstractController {
 
         return R.ok();
     }
-
 }

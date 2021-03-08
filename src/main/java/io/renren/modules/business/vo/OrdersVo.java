@@ -4,6 +4,7 @@ import io.renren.modules.business.entity.OrdersEntity;
 import io.renren.modules.business.entity.OrderMaItemsRelEntity;
 import io.renren.modules.business.entity.PartEntity;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.List;
 
@@ -13,6 +14,7 @@ import java.util.List;
  * @Email wyf0926@seas.upenn.edu
  * @Version 1.0
  **/
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class OrdersVo extends OrdersEntity {
 

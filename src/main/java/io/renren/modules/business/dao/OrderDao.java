@@ -1,18 +1,16 @@
 package io.renren.modules.business.dao;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import io.renren.modules.business.entity.OrderMaItemsRelEntity;
 import io.renren.modules.business.entity.OrdersEntity;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import io.renren.modules.business.vo.OrdersVo;
 import io.renren.modules.business.vo.PartVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
 
 /**
  * 维修单表
-
- * 
+ *
  * @author yifan
  * @email wyf0926@seas.upenn.edu
  * @date 2021-02-28 13:30:42
@@ -21,6 +19,7 @@ import org.apache.ibatis.annotations.Select;
 public interface OrderDao extends BaseMapper<OrdersEntity> {
     /**
      * 返回带配件详情的订单信息
+     *
      * @param orderId
      * @return
      */

@@ -1,21 +1,20 @@
 package io.renren.modules.business.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import io.renren.modules.business.entity.ContractorEntity;
-import io.renren.modules.business.service.ContractorService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import io.renren.common.exception.RRException;
 import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.R;
+import io.renren.modules.business.entity.ContractorEntity;
+import io.renren.modules.business.service.ContractorService;
+import io.renren.modules.sys.controller.AbstractController;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -27,7 +26,7 @@ import io.renren.common.utils.R;
  */
 @RestController
 @RequestMapping("business/contractor")
-public class ContractorController {
+public class ContractorController extends AbstractController {
     @Autowired
     private ContractorService contractorService;
 
@@ -36,7 +35,7 @@ public class ContractorController {
      */
     @RequestMapping("/list")
     @RequiresPermissions("business:contractor:list")
-    public R list(@RequestParam Map<String, Object> params){
+    public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = contractorService.queryPage(params);
 
         return R.ok().put("page", page);
@@ -48,8 +47,8 @@ public class ContractorController {
      */
     @RequestMapping("/info/{contractorId}")
     @RequiresPermissions("business:contractor:info")
-    public R info(@PathVariable("contractorId") Integer contractorId){
-		ContractorEntity contractor = contractorService.getById(contractorId);
+    public R info(@PathVariable("contractorId") Integer contractorId) {
+        ContractorEntity contractor = contractorService.getById(contractorId);
 
         return R.ok().put("contractor", contractor);
     }
@@ -59,8 +58,19 @@ public class ContractorController {
      */
     @RequestMapping("/save")
     @RequiresPermissions("business:contractor:save")
-    public R save(@RequestBody ContractorEntity contractor){
-		contractorService.save(contractor);
+    public R save(@RequestBody ContractorEntity contractor) {
+        List<ContractorEntity> list = contractorService.list(
+                new QueryWrapper<ContractorEntity>()
+                        .lambda()
+                        .eq(ContractorEntity::getContractorName, contractor.getContractorName()));
+
+        if (list.size() > 0) {
+            throw new RRException("错误:该单位名称已创建,请勿重复创建!", 501);
+        }
+
+        contractor.setCreateTime(new Date());
+        contractor.setCreateUser(this.getUserId());
+        contractorService.save(contractor);
 
         return R.ok();
     }
@@ -70,8 +80,21 @@ public class ContractorController {
      */
     @RequestMapping("/update")
     @RequiresPermissions("business:contractor:update")
-    public R update(@RequestBody ContractorEntity contractor){
-		contractorService.updateById(contractor);
+    public R update(@RequestBody ContractorEntity contractor) {
+        List<ContractorEntity> list = contractorService.list(
+                new QueryWrapper<ContractorEntity>()
+                        .lambda()
+                        .eq(ContractorEntity::getContractorName, contractor.getContractorName())
+                        .ne(ContractorEntity::getContractorId, contractor.getContractorId())
+        );
+
+        if (list.size() > 0) {
+            throw new RRException("错误:该单位名称已被使用!", 501);
+        }
+
+        contractor.setModifyTime(new Date());
+        contractor.setModifyUser(this.getUserId());
+        contractorService.updateById(contractor);
 
         return R.ok();
     }
@@ -81,8 +104,8 @@ public class ContractorController {
      */
     @RequestMapping("/delete")
     @RequiresPermissions("business:contractor:delete")
-    public R delete(@RequestBody Integer[] contractorIds){
-		contractorService.removeByIds(Arrays.asList(contractorIds));
+    public R delete(@RequestBody Integer[] contractorIds) {
+        contractorService.removeByIds(Arrays.asList(contractorIds));
 
         return R.ok();
     }

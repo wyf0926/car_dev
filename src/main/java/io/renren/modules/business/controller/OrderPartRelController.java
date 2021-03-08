@@ -1,22 +1,16 @@
 package io.renren.modules.business.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
+import io.renren.common.utils.PageUtils;
+import io.renren.common.utils.R;
+import io.renren.modules.business.entity.OrderPartRelEntity;
+import io.renren.modules.business.service.OrderPartRelService;
 import io.renren.modules.sys.controller.AbstractController;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import io.renren.modules.business.entity.OrderPartRelEntity;
-import io.renren.modules.business.service.OrderPartRelService;
-import io.renren.common.utils.PageUtils;
-import io.renren.common.utils.R;
-
+import java.util.Arrays;
+import java.util.Map;
 
 
 /**
@@ -37,7 +31,7 @@ public class OrderPartRelController extends AbstractController {
      */
     @RequestMapping("/list")
     @RequiresPermissions("business:orderpartrel:list")
-    public R list(@RequestParam Map<String, Object> params){
+    public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = orderPartRelService.queryPage(params);
 
         return R.ok().put("page", page);
@@ -49,8 +43,8 @@ public class OrderPartRelController extends AbstractController {
      */
     @RequestMapping("/info/{relId}")
     @RequiresPermissions("business:orderpartrel:info")
-    public R info(@PathVariable("relId") Integer relId){
-		OrderPartRelEntity orderPartRel = orderPartRelService.getById(relId);
+    public R info(@PathVariable("relId") Integer relId) {
+        OrderPartRelEntity orderPartRel = orderPartRelService.getById(relId);
 
         return R.ok().put("orderPartRel", orderPartRel);
     }
@@ -60,8 +54,8 @@ public class OrderPartRelController extends AbstractController {
      */
     @RequestMapping("/save")
     @RequiresPermissions("business:orderpartrel:save")
-    public R save(@RequestBody OrderPartRelEntity orderPartRel){
-		orderPartRelService.save(orderPartRel);
+    public R save(@RequestBody OrderPartRelEntity orderPartRel) {
+        orderPartRelService.save(orderPartRel);
 
         return R.ok();
     }
@@ -71,8 +65,8 @@ public class OrderPartRelController extends AbstractController {
      */
     @RequestMapping("/update")
     @RequiresPermissions("business:orderpartrel:update")
-    public R update(@RequestBody OrderPartRelEntity orderPartRel){
-		orderPartRelService.updateById(orderPartRel);
+    public R update(@RequestBody OrderPartRelEntity orderPartRel) {
+        orderPartRelService.updateById(orderPartRel);
 
         return R.ok();
     }
@@ -82,8 +76,8 @@ public class OrderPartRelController extends AbstractController {
      */
     @RequestMapping("/delete")
     @RequiresPermissions("business:orderpartrel:delete")
-    public R delete(@RequestBody Integer[] relIds){
-		orderPartRelService.removeByIds(Arrays.asList(relIds));
+    public R delete(@RequestBody Integer[] relIds) {
+        orderPartRelService.removeByIds(Arrays.asList(relIds));
 
         return R.ok();
     }

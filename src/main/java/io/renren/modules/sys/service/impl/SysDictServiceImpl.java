@@ -1,22 +1,20 @@
 package io.renren.modules.sys.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import io.renren.common.exception.RRException;
-import io.renren.common.utils.R;
+import io.renren.common.utils.PageUtils;
+import io.renren.common.utils.Query;
+import io.renren.modules.sys.dao.SysDictDao;
+import io.renren.modules.sys.entity.SysDictEntity;
+import io.renren.modules.sys.service.SysDictService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import io.renren.common.utils.PageUtils;
-import io.renren.common.utils.Query;
-
-import io.renren.modules.sys.dao.SysDictDao;
-import io.renren.modules.sys.entity.SysDictEntity;
-import io.renren.modules.sys.service.SysDictService;
 
 
 @Service("sysDictService")
@@ -28,18 +26,18 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictDao, SysDictEntity> i
         QueryWrapper<SysDictEntity> sysDictEntityQueryWrapper = new QueryWrapper<>();
 
         Object nameObj = params.get("dictName");
-        if(nameObj != null){
+        if (nameObj != null) {
             String dictName = nameObj.toString();
-            if(StringUtils.isNotBlank(dictName)){
-                sysDictEntityQueryWrapper.lambda().like(SysDictEntity::getDictName,dictName);
+            if (StringUtils.isNotBlank(dictName)) {
+                sysDictEntityQueryWrapper.lambda().like(SysDictEntity::getDictName, dictName);
             }
         }
 
         Object codeObj = params.get("dictCode");
-        if(codeObj != null){
+        if (codeObj != null) {
             String dictCode = codeObj.toString();
-            if(StringUtils.isNotBlank(dictCode)){
-                sysDictEntityQueryWrapper.lambda().like(SysDictEntity::getDictCode,dictCode);
+            if (StringUtils.isNotBlank(dictCode)) {
+                sysDictEntityQueryWrapper.lambda().like(SysDictEntity::getDictCode, dictCode);
             }
         }
 

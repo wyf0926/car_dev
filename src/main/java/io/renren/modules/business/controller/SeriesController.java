@@ -45,6 +45,17 @@ public class SeriesController extends AbstractController {
         return R.ok().put("page", page);
     }
 
+    /**
+     * 列表
+     */
+    @GetMapping("/listAll")
+    @RequiresPermissions("business:series:list")
+    public R listAll() {
+        List<SeriesEntity> list = seriesService.list(new QueryWrapper<SeriesEntity>());
+
+        return R.ok().put("list", list);
+    }
+
 
     /**
      * 信息

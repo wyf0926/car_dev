@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.modules.business.dao.CustomerCarSeriesRelDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="io.renren.modules.business.entity.CustomerCarSeriesRelEntity" id="customerCarSeriesRelMap">
+        <result property="relId" column="rel_id"/>
+        <result property="customerId" column="customer_id"/>
+        <result property="seriesId" column="series_id"/>
+        <result property="carPlate" column="car_plate"/>
+        <result property="vin" column="vin"/>
+    </resultMap>
+
+    <select id="selectCarListByCustomerId"
+            resultType="io.renren.modules.business.vo.CustomerCarVo">
+        select ccsr.rel_id,ccsr.customer_id,ccsr.series_id,ccsr.car_plate,ccsr.vin,cs.series_name
+        from customer_car_series_rel ccsr
+        left join car_series cs
+        on ccsr.series_id = cs.series_id
+        where ccsr.del_state = 0 and cs.del_state = 0 and ccsr.customer_id = #{customerId}
+    </select>
+
+
+</mapper>

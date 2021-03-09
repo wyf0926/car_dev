@@ -1,7 +1,6 @@
 package io.renren.modules.business.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.math.BigDecimal;
@@ -15,7 +14,7 @@ import lombok.Data;
  * 
  * @author yifan
  * @email wyf0926@seas.upenn.edu
- * @date 2021-02-28 13:30:42
+ * @date 2021-03-09 10:11:29
  */
 @Data
 @TableName("orders")
@@ -32,21 +31,29 @@ public class OrdersEntity implements Serializable {
 	 */
 	private String orderNo;
 	/**
-	 * 客户ID
+	 * 客户汽车关系id
 	 */
-	private Long customerId;
+	private Long relId;
+	/**
+	 * 车牌号
+	 */
+	private String carPlate;
+	/**
+	 * 车架号
+	 */
+	private String vin;
+	/**
+	 * 客户id
+	 */
+	private Integer customerId;
+	/**
+	 * 客户名称
+	 */
+	private String customerName;
 	/**
 	 * 送修人
 	 */
 	private String driver;
-	/**
-	 * 车牌号码
-	 */
-	private String carPlate;
-	/**
-	 * 厂牌型号
-	 */
-	private String carModel;
 	/**
 	 * 维修类别
 	 */
@@ -56,13 +63,9 @@ public class OrdersEntity implements Serializable {
 	 */
 	private String incomingDate;
 	/**
-	 * 车架号
-	 */
-	private String vin;
-	/**
 	 * 出厂里程表读数
 	 */
-	private Integer mileageAfter;
+	private Long mileageAfter;
 	/**
 	 * 联系电话
 	 */
@@ -71,6 +74,11 @@ public class OrdersEntity implements Serializable {
 	 * 承修方id
 	 */
 	private Long contractorId;
+	/**
+	 * 承修方名称
+
+	 */
+	private String contractorName;
 	/**
 	 * 结算日期
 	 */
@@ -90,7 +98,6 @@ public class OrdersEntity implements Serializable {
 	/**
 	 * 删除状态:0.未删除，1.已删除
 	 */
-	@TableLogic
 	private Integer delState;
 	/**
 	 * 创建时间
@@ -107,6 +114,6 @@ public class OrdersEntity implements Serializable {
 	/**
 	 * 修改人
 	 */
-	private Integer modifyUser;
+	private Long modifyUser;
 
 }

@@ -18,15 +18,15 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.Query;
 
-import io.renren.modules.business.dao.OrderDao;
-import io.renren.modules.business.service.OrderService;
+import io.renren.modules.business.dao.OrdersDao;
+import io.renren.modules.business.service.OrdersService;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 
 
 @Service("orderService")
-public class OrderServiceImpl extends ServiceImpl<OrderDao, OrdersEntity> implements OrderService {
+public class OrdersServiceImpl extends ServiceImpl<OrdersDao, OrdersEntity> implements OrdersService {
 
     @Resource
     private OrderPartRelDao orderPartRelDao;

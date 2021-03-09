@@ -18,7 +18,7 @@ import org.apache.ibatis.annotations.Select;
  * @date 2021-02-28 13:30:42
  */
 @Mapper
-public interface OrderDao extends BaseMapper<OrdersEntity> {
+public interface OrdersDao extends BaseMapper<OrdersEntity> {
     /**
      * 返回带配件详情的订单信息
      * @param orderId

@@ -1,8 +1,7 @@
 package io.renren.modules.business.vo;
 
-import io.renren.modules.business.entity.OrdersEntity;
 import io.renren.modules.business.entity.OrderMaItemsRelEntity;
-import io.renren.modules.business.entity.PartEntity;
+import io.renren.modules.business.entity.OrdersEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

@@ -7,8 +7,6 @@ import io.renren.modules.sys.entity.SysDictEntity;
 import java.util.Map;
 
 /**
- * 
- *
  * @author allan
  * @email zwy1997213@163.com
  * @date 2021-02-24 15:03:25

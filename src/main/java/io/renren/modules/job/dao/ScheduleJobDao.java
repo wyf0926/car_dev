@@ -1,8 +1,8 @@
 /**
  * Copyright (c) 2016-2019 人人开源 All rights reserved.
- *
+ * <p>
  * https://www.renren.io
- *
+ * <p>
  * 版权所有，侵权必究！
  */
 
@@ -21,9 +21,9 @@ import java.util.Map;
  */
 @Mapper
 public interface ScheduleJobDao extends BaseMapper<ScheduleJobEntity> {
-	
-	/**
-	 * 批量更新状态
-	 */
-	int updateBatch(Map<String, Object> map);
+
+    /**
+     * 批量更新状态
+     */
+    int updateBatch(Map<String, Object> map);
 }

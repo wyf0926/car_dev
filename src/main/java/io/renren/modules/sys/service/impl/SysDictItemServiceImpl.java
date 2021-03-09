@@ -1,22 +1,20 @@
 package io.renren.modules.sys.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import io.renren.common.exception.RRException;
-import io.renren.modules.sys.entity.SysDictEntity;
+import io.renren.common.utils.PageUtils;
+import io.renren.common.utils.Query;
+import io.renren.modules.sys.dao.SysDictItemDao;
+import io.renren.modules.sys.entity.SysDictItemEntity;
+import io.renren.modules.sys.service.SysDictItemService;
 import io.renren.modules.sys.vo.DictItemVo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import io.renren.common.utils.PageUtils;
-import io.renren.common.utils.Query;
-
-import io.renren.modules.sys.dao.SysDictItemDao;
-import io.renren.modules.sys.entity.SysDictItemEntity;
-import io.renren.modules.sys.service.SysDictItemService;
 
 
 @Service("sysDictItemService")
@@ -38,7 +36,7 @@ public class SysDictItemServiceImpl extends ServiceImpl<SysDictItemDao, SysDictI
 
         IPage<SysDictItemEntity> page = this.page(
                 new Query<SysDictItemEntity>().getPage(params),
-                new QueryWrapper<SysDictItemEntity>().lambda().eq(SysDictItemEntity::getDictId,dictId)
+                new QueryWrapper<SysDictItemEntity>().lambda().eq(SysDictItemEntity::getDictId, dictId)
         );
 
         return new PageUtils(page);

@@ -7,8 +7,6 @@ import io.renren.modules.business.entity.SeriesEntity;
 import java.util.Map;
 
 /**
- * 
- *
  * @author allan
  * @email zwy1997213@163.com
  * @date 2021-03-04 16:31:29

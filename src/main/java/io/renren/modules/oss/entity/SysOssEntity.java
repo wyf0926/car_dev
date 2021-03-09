@@ -1,8 +1,8 @@
 /**
  * Copyright (c) 2016-2019 人人开源 All rights reserved.
- *
+ * <p>
  * https://www.renren.io
- *
+ * <p>
  * 版权所有，侵权必究！
  */
 
@@ -24,13 +24,13 @@ import java.util.Date;
 @Data
 @TableName("sys_oss")
 public class SysOssEntity implements Serializable {
-	private static final long serialVersionUID = 1L;
-	
-	@TableId
-	private Long id;
-	//URL地址
-	private String url;
-	//创建时间
-	private Date createDate;
+    private static final long serialVersionUID = 1L;
+
+    @TableId
+    private Long id;
+    //URL地址
+    private String url;
+    //创建时间
+    private Date createDate;
 
 }

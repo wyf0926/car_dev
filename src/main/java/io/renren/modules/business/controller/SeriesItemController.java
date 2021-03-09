@@ -1,27 +1,21 @@
 package io.renren.modules.business.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import io.renren.common.utils.PageUtils;
+import io.renren.common.utils.R;
+import io.renren.modules.business.entity.SeriesItemEntity;
+import io.renren.modules.business.service.SeriesItemService;
+import io.renren.modules.sys.controller.AbstractController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import io.renren.common.exception.RRException;
-import io.renren.modules.sys.controller.AbstractController;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import io.renren.modules.business.entity.SeriesItemEntity;
-import io.renren.modules.business.service.SeriesItemService;
-import io.renren.common.utils.PageUtils;
-import io.renren.common.utils.R;
-
-
 
 /**
- * 
- *
  * @author allan
  * @email zwy1997213@163.com
  * @date 2021-03-04 16:31:29
@@ -36,17 +30,17 @@ public class SeriesItemController extends AbstractController {
      * 列表
      */
     @RequestMapping("/list")
-    public R list(@RequestParam Map<String, Object> params){
+    public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = seriesItemService.queryPage(params);
 
         return R.ok().put("page", page);
     }
 
     @GetMapping("/{seriesId}")
-    public R getItemList(@PathVariable("seriesId") Long seriesId){
-        List<SeriesItemEntity> list = seriesItemService.list(new QueryWrapper<SeriesItemEntity>().lambda().eq(SeriesItemEntity::getSeriesId,seriesId));
+    public R getItemList(@PathVariable("seriesId") Long seriesId) {
+        List<SeriesItemEntity> list = seriesItemService.list(new QueryWrapper<SeriesItemEntity>().lambda().eq(SeriesItemEntity::getSeriesId, seriesId));
 
-        return R.ok().put("itemList",list);
+        return R.ok().put("itemList", list);
     }
 
 
@@ -54,8 +48,8 @@ public class SeriesItemController extends AbstractController {
      * 信息
      */
     @RequestMapping("/info/{itemId}")
-    public R info(@PathVariable("itemId") Long itemId){
-		SeriesItemEntity seriesItem = seriesItemService.getById(itemId);
+    public R info(@PathVariable("itemId") Long itemId) {
+        SeriesItemEntity seriesItem = seriesItemService.getById(itemId);
 
         return R.ok().put("seriesItem", seriesItem);
     }
@@ -64,12 +58,12 @@ public class SeriesItemController extends AbstractController {
      * 保存
      */
     @RequestMapping("/save")
-    public R save(@RequestBody SeriesItemEntity seriesItem){
+    public R save(@RequestBody SeriesItemEntity seriesItem) {
         seriesItem.setCreateUser(this.getUserId());
         seriesItem.setCreateTime(new Date());
-        if(seriesItemService.saveSeriesItem(seriesItem)){
+        if (seriesItemService.saveSeriesItem(seriesItem)) {
             return R.ok();
-        }else {
+        } else {
             return R.error();
         }
     }
@@ -78,13 +72,13 @@ public class SeriesItemController extends AbstractController {
      * 修改
      */
     @RequestMapping("/update")
-    public R update(@RequestBody SeriesItemEntity seriesItem){
+    public R update(@RequestBody SeriesItemEntity seriesItem) {
         seriesItem.setModifyUser(this.getUserId());
         seriesItem.setModifyTime(new Date());
-		if(seriesItemService.updateSeriesItem(seriesItem)){
+        if (seriesItemService.updateSeriesItem(seriesItem)) {
             return R.ok();
-        }else {
-		    return R.error();
+        } else {
+            return R.error();
         }
 
 
@@ -94,11 +88,11 @@ public class SeriesItemController extends AbstractController {
      * 删除
      */
     @RequestMapping("/delete")
-    public R delete(@RequestBody Long[] itemIds){
-		if(seriesItemService.removeByItemIds(Arrays.asList(itemIds))){
+    public R delete(@RequestBody Long[] itemIds) {
+        if (seriesItemService.removeByItemIds(Arrays.asList(itemIds))) {
             return R.ok();
-        }else {
-		    return R.error();
+        } else {
+            return R.error();
         }
 
 

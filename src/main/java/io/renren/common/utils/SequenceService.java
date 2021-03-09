@@ -16,30 +16,6 @@ public class SequenceService {
     @Resource
     private RedisTemplate<String, Long> redisTemplate;
 
-    public enum ID_Prefix {
-        NULL(""),
-        ORDER("WX");
-
-        private String value;
-
-        ID_Prefix(String value) {
-            this.value = value;
-        }
-
-        public String getValue() {
-            return this.value;
-        }
-
-        public static ID_Prefix getTablePrefix(String value) {
-            for (ID_Prefix status : ID_Prefix.values()) {
-                if (status.toString().equalsIgnoreCase(value)) {
-                    return status;
-                }
-            }
-            return ID_Prefix.NULL;
-        }
-    }
-
     public String getID(ID_Prefix prefix) {
         StringBuilder sb = new StringBuilder();
         switch (prefix) {
@@ -56,7 +32,7 @@ public class SequenceService {
     private String getSuffix(String key) {
         StringBuilder seq = new StringBuilder(getSequence(key).toString());
         while (seq.length() < 4) {
-            seq.insert(0,"0");
+            seq.insert(0, "0");
         }
         return seq.toString();
     }
@@ -72,9 +48,33 @@ public class SequenceService {
     public Long getSequence(String key, int increment, long expire) {
         RedisAtomicLong counter = new RedisAtomicLong(key, redisTemplate.getConnectionFactory());
         counter.getAndAdd(increment);
-        if(expire > 0){
+        if (expire > 0) {
             counter.expire(expire, TimeUnit.SECONDS);
         }
         return counter.longValue();
+    }
+
+    public enum ID_Prefix {
+        NULL(""),
+        ORDER("WX");
+
+        private final String value;
+
+        ID_Prefix(String value) {
+            this.value = value;
+        }
+
+        public static ID_Prefix getTablePrefix(String value) {
+            for (ID_Prefix status : ID_Prefix.values()) {
+                if (status.toString().equalsIgnoreCase(value)) {
+                    return status;
+                }
+            }
+            return ID_Prefix.NULL;
+        }
+
+        public String getValue() {
+            return this.value;
+        }
     }
 }

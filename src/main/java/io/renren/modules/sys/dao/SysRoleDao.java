@@ -1,8 +1,8 @@
 /**
  * Copyright (c) 2016-2019 人人开源 All rights reserved.
- *
+ * <p>
  * https://www.renren.io
- *
+ * <p>
  * 版权所有，侵权必究！
  */
 
@@ -21,9 +21,9 @@ import java.util.List;
  */
 @Mapper
 public interface SysRoleDao extends BaseMapper<SysRoleEntity> {
-	
-	/**
-	 * 查询用户创建的角色ID列表
-	 */
-	List<Long> queryRoleIdList(Long createUserId);
+
+    /**
+     * 查询用户创建的角色ID列表
+     */
+    List<Long> queryRoleIdList(Long createUserId);
 }

@@ -1,33 +1,24 @@
 package io.renren.modules.sys.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import io.renren.common.exception.RRException;
+import io.renren.common.utils.PageUtils;
+import io.renren.common.utils.R;
+import io.renren.modules.sys.entity.SysDictEntity;
+import io.renren.modules.sys.entity.SysDictItemEntity;
+import io.renren.modules.sys.service.SysDictItemService;
+import io.renren.modules.sys.service.SysDictService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import io.renren.common.exception.RRException;
-import io.renren.modules.sys.entity.SysDictItemEntity;
-import io.renren.modules.sys.service.SysDictItemService;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import io.renren.modules.sys.entity.SysDictEntity;
-import io.renren.modules.sys.service.SysDictService;
-import io.renren.common.utils.PageUtils;
-import io.renren.common.utils.R;
-
-
 
 /**
- * 
- *
  * @author allan
  * @email zwy1997213@163.com
  * @date 2021-02-24 15:03:25
@@ -40,12 +31,13 @@ public class SysDictController extends AbstractController {
 
     @Autowired
     private SysDictItemService sysDictItemService;
+
     /**
      * 列表
      */
     @RequestMapping("/list")
     @RequiresPermissions("business:sysdict:list")
-    public R list(@RequestParam Map<String, Object> params){
+    public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = sysDictService.queryPage(params);
 
         return R.ok().put("page", page);
@@ -57,8 +49,8 @@ public class SysDictController extends AbstractController {
      */
     @RequestMapping("/info/{id}")
     @RequiresPermissions("business:sysdict:info")
-    public R info(@PathVariable("id") String id){
-		SysDictEntity sysDict = sysDictService.getById(id);
+    public R info(@PathVariable("id") String id) {
+        SysDictEntity sysDict = sysDictService.getById(id);
 
         return R.ok().put("sysDict", sysDict);
     }
@@ -68,11 +60,11 @@ public class SysDictController extends AbstractController {
      */
     @RequestMapping("/save")
     @RequiresPermissions("business:sysdict:save")
-    public R save(@RequestBody SysDictEntity sysDict){
+    public R save(@RequestBody SysDictEntity sysDict) {
 
         sysDict.setCreateBy(this.getUserId());
         sysDict.setCreateTime(new Date());
-        if(sysDictService.saveSysDictItem(sysDict)) {
+        if (sysDictService.saveSysDictItem(sysDict)) {
             return R.ok();
         }
         return R.error();
@@ -83,8 +75,8 @@ public class SysDictController extends AbstractController {
      */
     @RequestMapping("/update")
     @RequiresPermissions("business:sysdict:update")
-    public R update(@RequestBody SysDictEntity sysDict){
-		sysDict.setUpdateBy(this.getUserId());
+    public R update(@RequestBody SysDictEntity sysDict) {
+        sysDict.setUpdateBy(this.getUserId());
         sysDict.setUpdateTime(new Date());
         if (sysDictService.updateDictById(sysDict)) {
             return R.ok();
@@ -97,7 +89,7 @@ public class SysDictController extends AbstractController {
      */
     @RequestMapping("/delete")
     @RequiresPermissions("business:sysdict:delete")
-    public R delete(@RequestBody String[] ids){
+    public R delete(@RequestBody String[] ids) {
         List<String> list = Arrays.asList(ids);
         List<SysDictItemEntity> sysDictItems = sysDictItemService.list(new LambdaQueryWrapper<SysDictItemEntity>()
                 .in(SysDictItemEntity::getDictId, list));

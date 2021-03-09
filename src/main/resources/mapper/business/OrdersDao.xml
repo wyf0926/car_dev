@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="io.renren.modules.business.dao.OrderDao">
+<mapper namespace="io.renren.modules.business.dao.OrdersDao">
 
 	<!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="io.renren.modules.business.entity.OrdersEntity" id="orderMap">
+    <resultMap type="io.renren.modules.business.entity.OrdersEntity" id="ordersMap">
         <result property="orderId" column="order_id"/>
         <result property="orderNo" column="order_no"/>
-        <result property="customerId" column="customer_id"/>
-        <result property="driver" column="driver"/>
+        <result property="relId" column="rel_id"/>
         <result property="carPlate" column="car_plate"/>
-        <result property="carModel" column="car_model"/>
+        <result property="vin" column="vin"/>
+        <result property="customerId" column="customer_id"/>
+        <result property="customerName" column="customer_name"/>
+        <result property="driver" column="driver"/>
         <result property="category" column="category"/>
         <result property="incomingDate" column="incoming_date"/>
-        <result property="vin" column="VIN"/>
         <result property="mileageAfter" column="mileage_after"/>
         <result property="phone" column="phone"/>
         <result property="contractorId" column="contractor_id"/>
+        <result property="contractorName" column="contractor_name"/>
         <result property="payDate" column="pay_date"/>
         <result property="payType" column="pay_type"/>
         <result property="totalAmount" column="total_amount"/>
@@ -27,15 +29,6 @@
         <result property="modifyTime" column="modify_time"/>
         <result property="modifyUser" column="modify_user"/>
     </resultMap>
-    <select id="selectOrderDetailById" resultType="io.renren.modules.business.vo.OrdersVo">
-
-    </select>
-    <select id="selectPartDetailByOrderId" resultType="io.renren.modules.business.vo.PartVo">
-
-    </select>
-    <select id="selectItemDetailByOrderId" resultType="io.renren.modules.business.entity.OrderMaItemsRelEntity">
-
-    </select>
 
 
 </mapper>

@@ -14,7 +14,7 @@ import java.util.Map;
  * @email wyf0926@seas.upenn.edu
  * @date 2021-02-28 13:30:42
  */
-public interface OrderService extends IService<OrdersEntity> {
+public interface OrdersService extends IService<OrdersEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
 

@@ -36,6 +36,12 @@ public class SeriesItemController extends AbstractController {
         return R.ok().put("page", page);
     }
 
+    /**
+     * 根据车系id获取全部车款列表
+     *
+     * @param seriesId
+     * @return
+     */
     @GetMapping("/{seriesId}")
     public R getItemList(@PathVariable("seriesId") Long seriesId) {
         List<SeriesItemEntity> list = seriesItemService.list(new QueryWrapper<SeriesItemEntity>().lambda().eq(SeriesItemEntity::getSeriesId, seriesId));
@@ -61,11 +67,12 @@ public class SeriesItemController extends AbstractController {
     public R save(@RequestBody SeriesItemEntity seriesItem) {
         seriesItem.setCreateUser(this.getUserId());
         seriesItem.setCreateTime(new Date());
+
         if (seriesItemService.saveSeriesItem(seriesItem)) {
             return R.ok();
-        } else {
-            return R.error();
         }
+
+        return R.error();
     }
 
     /**
@@ -73,15 +80,14 @@ public class SeriesItemController extends AbstractController {
      */
     @RequestMapping("/update")
     public R update(@RequestBody SeriesItemEntity seriesItem) {
+
         seriesItem.setModifyUser(this.getUserId());
         seriesItem.setModifyTime(new Date());
         if (seriesItemService.updateSeriesItem(seriesItem)) {
             return R.ok();
-        } else {
-            return R.error();
         }
 
-
+        return R.error();
     }
 
     /**
@@ -91,11 +97,9 @@ public class SeriesItemController extends AbstractController {
     public R delete(@RequestBody Long[] itemIds) {
         if (seriesItemService.removeByItemIds(Arrays.asList(itemIds))) {
             return R.ok();
-        } else {
-            return R.error();
         }
 
-
+        return R.error();
     }
 
 }

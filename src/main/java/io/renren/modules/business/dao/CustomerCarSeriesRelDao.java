@@ -18,6 +18,12 @@ import java.util.List;
 @Mapper
 public interface CustomerCarSeriesRelDao extends BaseMapper<CustomerCarSeriesRelEntity> {
 
+    /**
+     * 根据用户id获取车辆列表
+     *
+     * @param customerId
+     * @return
+     */
     List<CustomerCarVo> selectCarListByCustomerId(@Param("customerId") Long customerId);
 
 }

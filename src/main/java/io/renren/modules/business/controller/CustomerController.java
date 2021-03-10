@@ -1,8 +1,11 @@
 package io.renren.modules.business.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import io.renren.common.exception.RRException;
 import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.R;
 import io.renren.modules.business.entity.CustomerEntity;
+import io.renren.modules.business.entity.SeriesEntity;
 import io.renren.modules.business.service.CustomerService;
 import io.renren.modules.sys.controller.AbstractController;
 import io.swagger.annotations.Api;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 
@@ -60,11 +64,16 @@ public class CustomerController extends AbstractController {
     @RequestMapping("/save")
     @RequiresPermissions("business:customer:save")
     public R save(@RequestBody CustomerEntity customer) {
+
         customer.setCreateUser(this.getUserId());
         customer.setCreateTime(new Date());
-        customerService.save(customer);
 
-        return R.ok();
+        if (customerService.saveCustomer(customer)) {
+            return R.ok();
+
+        }
+
+        return R.error();
     }
 
     /**
@@ -73,11 +82,16 @@ public class CustomerController extends AbstractController {
     @RequestMapping("/update")
     @RequiresPermissions("business:customer:update")
     public R update(@RequestBody CustomerEntity customer) {
+
+
         customer.setModifyUser(this.getUserId());
         customer.setModifyTime(new Date());
-        customerService.updateById(customer);
 
-        return R.ok();
+        if (customerService.updateCustomerById(customer)) {
+            return R.ok();
+        }
+
+        return R.error();
     }
 
     /**
@@ -86,9 +100,12 @@ public class CustomerController extends AbstractController {
     @RequestMapping("/delete")
     @RequiresPermissions("business:customer:delete")
     public R delete(@RequestBody Integer[] customerIds) {
-        customerService.removeByIds(Arrays.asList(customerIds));
 
-        return R.ok();
+        if (customerService.removeByIds(Arrays.asList(customerIds))) {
+            return R.ok();
+        }
+
+        return R.error();
     }
 
 }

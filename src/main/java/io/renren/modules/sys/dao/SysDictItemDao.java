@@ -16,7 +16,19 @@ import java.util.List;
 @Mapper
 public interface SysDictItemDao extends BaseMapper<SysDictItemEntity> {
 
+    /**
+     * 根据字典id获取字典列表
+     *
+     * @param dictId
+     * @return
+     */
     List<DictItemVo> selectItemList(@Param("dictId") Long dictId);
 
+    /**
+     * 根据字典编码获取字典列表
+     *
+     * @param dictCode
+     * @return
+     */
     List<DictItemVo> selectItemListByCode(@Param("dictCode") String dictCode);
 }

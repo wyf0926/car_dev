@@ -1,6 +1,7 @@
 package io.renren.modules.business.controller;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -52,6 +53,16 @@ public class CustomerCarSeriesRelController extends AbstractController {
 
 
     /**
+     * 根据客户id获取车辆列表
+     */
+    @GetMapping("/{customerId}")
+    @RequiresPermissions("business:customer:list")
+    public R listCar(@PathVariable("customerId") Long customerId){
+        List<CustomerCarVo> itemList = customerCarSeriesRelService.getCarListByCustomerId(customerId);
+        return R.ok().put("itemList", itemList);
+    }
+
+    /**
      * 信息
      */
     @RequestMapping("/info/{relId}")
@@ -69,24 +80,21 @@ public class CustomerCarSeriesRelController extends AbstractController {
         return R.ok().put("customerCarVo", customerCarVo);
     }
 
-    /**
-     * 根据客户id获取车辆列表
-     */
-    @GetMapping("/{customerId}")
-    @RequiresPermissions("business:customer:list")
-    public R listCar(@PathVariable("customerId") Long customerId){
-        List<CustomerCarVo> itemList = customerCarSeriesRelService.getCarListByCustomerId(customerId);
-        return R.ok().put("itemList", itemList);
-    }
 
     /**
      * 保存
      */
     @RequestMapping("/save")
     @RequiresPermissions("business:customer:save")
-    public R save(@RequestBody CustomerCarSeriesRelEntity customerCarSeriesRel){
-		customerCarSeriesRelService.saveCustomerCarSeriesRel(customerCarSeriesRel);
-        return R.ok();
+    public R save(@RequestBody CustomerCarVo customerCarVo){
+        customerCarVo.setCreateTime(new Date());
+        customerCarVo.setCreateUser(this.getUserId());
+
+		if (customerCarSeriesRelService.saveCustomerCarSeriesRel(customerCarVo)) {
+            return R.ok();
+        }
+
+		return R.error();
     }
 
     /**
@@ -95,8 +103,14 @@ public class CustomerCarSeriesRelController extends AbstractController {
     @RequestMapping("/update")
     @RequiresPermissions("business:customer:update")
     public R update(@RequestBody CustomerCarSeriesRelEntity customerCarSeriesRel){
-		customerCarSeriesRelService.updateCustomerCarSeriesRelById(customerCarSeriesRel);
-        return R.ok();
+        customerCarSeriesRel.setModifyTime(new Date());
+        customerCarSeriesRel.setModifyUser(this.getUserId());
+
+		if (customerCarSeriesRelService.updateCustomerCarSeriesRelById(customerCarSeriesRel)) {
+            return R.ok();
+        }
+
+		return R.error();
     }
 
     /**
@@ -105,8 +119,11 @@ public class CustomerCarSeriesRelController extends AbstractController {
     @RequestMapping("/delete")
     @RequiresPermissions("business:customer:delete")
     public R delete(@RequestBody Long[] relIds){
-		customerCarSeriesRelService.removeByCustomerCarSeriesRelIds(Arrays.asList(relIds));
-        return R.ok();
+		if (customerCarSeriesRelService.removeByCustomerCarSeriesRelIds(Arrays.asList(relIds))) {
+            return R.ok();
+        }
+
+		return R.error();
     }
 
 }

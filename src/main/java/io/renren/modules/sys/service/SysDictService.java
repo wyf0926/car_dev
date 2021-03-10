@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import io.renren.common.utils.PageUtils;
 import io.renren.modules.sys.entity.SysDictEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -13,10 +14,36 @@ import java.util.Map;
  */
 public interface SysDictService extends IService<SysDictEntity> {
 
+    /**
+     * 字典分页列表
+     *
+     * @param params
+     * @return
+     */
     PageUtils queryPage(Map<String, Object> params);
 
+    /**
+     * 新增字典
+     *
+     * @param sysDict
+     * @return
+     */
     boolean saveSysDictItem(SysDictEntity sysDict);
 
+    /**
+     * 更新字典
+     *
+     * @param sysDict
+     * @return
+     */
     boolean updateDictById(SysDictEntity sysDict);
+
+    /**
+     * 删除字典
+     *
+     * @param list
+     * @return
+     */
+    boolean removeSysDictByIds(List<Long> list);
 }
 

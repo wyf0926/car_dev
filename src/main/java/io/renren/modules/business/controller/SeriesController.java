@@ -31,8 +31,6 @@ import java.util.Map;
 public class SeriesController extends AbstractController {
     @Autowired
     private SeriesService seriesService;
-    @Resource
-    private SeriesItemService seriesItemService;
 
     /**
      * 列表
@@ -74,18 +72,17 @@ public class SeriesController extends AbstractController {
     @RequestMapping("/save")
     @RequiresPermissions("business:series:save")
     public R save(@RequestBody SeriesEntity series) {
-        List<SeriesEntity> list = seriesService.list(new QueryWrapper<SeriesEntity>()
-                .lambda().eq(SeriesEntity::getSeriesName, series.getSeriesName()));
-        if (list.size() > 0) {
-            throw new RRException("错误:该车系名已存在,请勿重复创建!", 501);
-        }
+
         series.setSeriesFctMaxPrice(BigDecimal.ZERO);
         series.setSeriesFctMinPrice(BigDecimal.ZERO);
         series.setCreateUser(this.getUserId());
         series.setCreateTime(new Date());
-        seriesService.save(series);
 
-        return R.ok();
+        if (seriesService.insertSeries(series)) {
+            return R.ok();
+        }
+
+        return R.error();
     }
 
     /**
@@ -94,18 +91,15 @@ public class SeriesController extends AbstractController {
     @RequestMapping("/update")
     @RequiresPermissions("business:series:update")
     public R update(@RequestBody SeriesEntity series) {
-        List<SeriesEntity> list = seriesService.list(
-                new QueryWrapper<SeriesEntity>().lambda()
-                        .eq(SeriesEntity::getSeriesName, series.getSeriesName())
-                        .ne(SeriesEntity::getSeriesId, series.getSeriesId()));
-        if (list.size() > 0) {
-            throw new RRException("错误:该车系名已存在,请勿重复创建!", 501);
-        }
+
         series.setModifyUser(this.getUserId());
         series.setModifyTime(new Date());
-        seriesService.updateById(series);
+        if (seriesService.updateSeriesById(series)) {
+            return R.ok();
+        }
 
-        return R.ok();
+        return R.error();
+
     }
 
     /**
@@ -114,16 +108,11 @@ public class SeriesController extends AbstractController {
     @RequestMapping("/delete")
     @RequiresPermissions("business:series:delete")
     public R delete(@RequestBody Long[] seriesIds) {
-        List<Long> ids = Arrays.asList(seriesIds);
-        List<SeriesItemEntity> list = seriesItemService.list(
-                new QueryWrapper<SeriesItemEntity>().lambda()
-                        .in(SeriesItemEntity::getSeriesId, ids));
-        if (list.size() > 0) {
-            throw new RRException("删除失败,请先删除该车系下所有车款!", 501);
+
+        if (seriesService.removeSeriesByIds(Arrays.asList(seriesIds))) {
+            return R.ok();
         }
 
-        seriesService.removeByIds(Arrays.asList(seriesIds));
-
-        return R.ok();
+        return R.error();
     }
 }

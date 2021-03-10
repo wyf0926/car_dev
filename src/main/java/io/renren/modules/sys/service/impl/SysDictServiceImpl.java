@@ -8,17 +8,24 @@ import io.renren.common.exception.RRException;
 import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.Query;
 import io.renren.modules.sys.dao.SysDictDao;
+import io.renren.modules.sys.dao.SysDictItemDao;
 import io.renren.modules.sys.entity.SysDictEntity;
+import io.renren.modules.sys.entity.SysDictItemEntity;
 import io.renren.modules.sys.service.SysDictService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 
 @Service("sysDictService")
 public class SysDictServiceImpl extends ServiceImpl<SysDictDao, SysDictEntity> implements SysDictService {
+
+    @Resource
+    private SysDictItemDao sysDictItemDao;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -71,6 +78,17 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictDao, SysDictEntity> i
             throw new RRException("错误：该字典已存在，请重新修改！", 501);
         }
         return this.updateById(sysDict);
+    }
+
+    @Override
+    public boolean removeSysDictByIds(List<Long> list) {
+        List<SysDictItemEntity> sysDictItems = sysDictItemDao.selectList(new LambdaQueryWrapper<SysDictItemEntity>()
+                .in(SysDictItemEntity::getDictId, list));
+        if (!sysDictItems.isEmpty()) {
+            throw new RRException("删除失败，请先删除该字典里的字典项！", 501);
+        }
+
+        return this.baseMapper.deleteBatchIds(list) == list.size();
     }
 
 }

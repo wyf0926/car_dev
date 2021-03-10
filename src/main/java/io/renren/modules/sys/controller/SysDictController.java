@@ -1,12 +1,8 @@
 package io.renren.modules.sys.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import io.renren.common.exception.RRException;
 import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.R;
 import io.renren.modules.sys.entity.SysDictEntity;
-import io.renren.modules.sys.entity.SysDictItemEntity;
-import io.renren.modules.sys.service.SysDictItemService;
 import io.renren.modules.sys.service.SysDictService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 
@@ -28,9 +23,6 @@ import java.util.Map;
 public class SysDictController extends AbstractController {
     @Autowired
     private SysDictService sysDictService;
-
-    @Autowired
-    private SysDictItemService sysDictItemService;
 
     /**
      * 列表
@@ -89,15 +81,12 @@ public class SysDictController extends AbstractController {
      */
     @RequestMapping("/delete")
     @RequiresPermissions("business:sysdict:delete")
-    public R delete(@RequestBody String[] ids) {
-        List<String> list = Arrays.asList(ids);
-        List<SysDictItemEntity> sysDictItems = sysDictItemService.list(new LambdaQueryWrapper<SysDictItemEntity>()
-                .in(SysDictItemEntity::getDictId, list));
-        if (!sysDictItems.isEmpty()) {
-            throw new RRException("删除失败，请先删除该字典里的字典项！", 501);
+    public R delete(@RequestBody Long[] ids) {
+
+        if (sysDictService.removeSysDictByIds(Arrays.asList(ids))) {
+            return R.ok();
         }
-        sysDictService.removeByIds(Arrays.asList(ids));
-        return R.ok();
+        return R.error();
     }
 
 }

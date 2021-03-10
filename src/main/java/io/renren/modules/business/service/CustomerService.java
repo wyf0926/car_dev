@@ -22,5 +22,21 @@ public interface CustomerService extends IService<CustomerEntity> {
      * @return
      */
     PageUtils queryPage(Map<String, Object> params);
+
+    /**
+     * 客户保存
+     *
+     * @param customer
+     * @return
+     */
+    boolean saveCustomer(CustomerEntity customer);
+
+    /**
+     * 客户更新
+     *
+     * @param customer
+     * @return
+     */
+    boolean updateCustomerById(CustomerEntity customer);
 }
 

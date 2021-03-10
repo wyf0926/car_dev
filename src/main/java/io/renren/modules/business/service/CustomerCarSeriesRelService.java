@@ -17,14 +17,44 @@ import java.util.Map;
  */
 public interface CustomerCarSeriesRelService extends IService<CustomerCarSeriesRelEntity> {
 
+    /**
+     * 分页列表(自动生成)
+     *
+     * @param params
+     * @return
+     */
     PageUtils queryPage(Map<String, Object> params);
 
+    /**
+     * 根据客户id获取车辆列表
+     *
+     * @param customerId
+     * @return
+     */
     List<CustomerCarVo> getCarListByCustomerId(Long customerId);
 
-    boolean saveCustomerCarSeriesRel(CustomerCarSeriesRelEntity customerCarSeriesRel);
+    /**
+     * 客户车辆新增
+     *
+     * @param customerCarVo
+     * @return
+     */
+    boolean saveCustomerCarSeriesRel(CustomerCarVo customerCarVo);
 
-    boolean removeByCustomerCarSeriesRelIds(List<Long> asList);
-
+    /**
+     * 客户车辆更新
+     *
+     * @param customerCarSeriesRel
+     * @return
+     */
     boolean updateCustomerCarSeriesRelById(CustomerCarSeriesRelEntity customerCarSeriesRel);
+
+    /**
+     * 客户车辆删除
+     *
+     * @param asList
+     * @return
+     */
+    boolean removeByCustomerCarSeriesRelIds(List<Long> asList);
 }
 

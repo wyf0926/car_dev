@@ -15,16 +15,52 @@ import java.util.Map;
  */
 public interface SysDictItemService extends IService<SysDictItemEntity> {
 
+    /**
+     * 字典项分页列表(自动生成)
+     *
+     * @param params
+     * @return
+     */
     PageUtils queryPage(Map<String, Object> params);
 
+    /**
+     * 字典项分页列表
+     *
+     * @param params
+     * @return
+     */
     PageUtils queryItemPage(Map<String, Object> params);
 
+    /**
+     * 字典项列表
+     *
+     * @param dictId
+     * @return
+     */
     List<DictItemVo> queryItemList(Long dictId);
 
+    /**
+     * 字典项保存
+     *
+     * @param sysDictItem
+     * @return
+     */
     boolean saveDictItem(SysDictItemEntity sysDictItem);
 
+    /**
+     * 字典项更新
+     *
+     * @param sysDictItem
+     * @return
+     */
     boolean updateDictItemById(SysDictItemEntity sysDictItem);
 
+    /**
+     * 字典项查询
+     *
+     * @param dictCode
+     * @return
+     */
     List<DictItemVo> queryItemListByCode(String dictCode);
 }
 

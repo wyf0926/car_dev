@@ -110,9 +110,11 @@ public class SysDictItemController extends AbstractController {
     @RequestMapping("/delete")
     @RequiresPermissions("business:sysdict:delete")
     public R delete(@RequestBody String[] ids) {
-        sysDictItemService.removeByIds(Arrays.asList(ids));
 
-        return R.ok();
+        if (sysDictItemService.removeByIds(Arrays.asList(ids))) {
+            return R.ok();
+        }
+        return R.error();
     }
 
 }

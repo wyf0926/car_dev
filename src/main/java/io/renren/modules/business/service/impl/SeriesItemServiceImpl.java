@@ -41,7 +41,7 @@ public class SeriesItemServiceImpl extends ServiceImpl<SeriesItemDao, SeriesItem
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean saveSeriesItem(SeriesItemEntity seriesItem) {
+    public boolean saveSeriesItem(SeriesItemEntity seriesItem) {
         List<SeriesItemEntity> list = this.baseMapper.selectList(
                 new QueryWrapper<SeriesItemEntity>().lambda()
                         .eq(SeriesItemEntity::getSpecName, seriesItem.getSpecName())
@@ -63,7 +63,7 @@ public class SeriesItemServiceImpl extends ServiceImpl<SeriesItemDao, SeriesItem
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean updateSeriesItem(SeriesItemEntity seriesItem) {
+    public boolean updateSeriesItem(SeriesItemEntity seriesItem) {
         List<SeriesItemEntity> list = this.baseMapper.selectList(
                 new QueryWrapper<SeriesItemEntity>().lambda()
                         .eq(SeriesItemEntity::getSpecName, seriesItem.getSpecName())
@@ -86,7 +86,7 @@ public class SeriesItemServiceImpl extends ServiceImpl<SeriesItemDao, SeriesItem
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean removeByItemIds(List<Long> itemIdList) {
+    public boolean removeByItemIds(List<Long> itemIdList) {
         Long seriesId = this.baseMapper.selectById(itemIdList.get(0)).getSeriesId();
         int delCount = this.baseMapper.deleteBatchIds(itemIdList);
         // 重新计算价格区间
@@ -104,7 +104,7 @@ public class SeriesItemServiceImpl extends ServiceImpl<SeriesItemDao, SeriesItem
      * @param seriesId
      * @return
      */
-    private Boolean refreshPriceRange(Long seriesId) {
+    private boolean refreshPriceRange(Long seriesId) {
         SeriesEntity seriesEntity = seriesDao.selectById(seriesId);
         List<BigDecimal> priceList = this.baseMapper.selectObjs(
                 new LambdaQueryWrapper<SeriesItemEntity>()

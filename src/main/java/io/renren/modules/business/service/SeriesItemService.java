@@ -14,12 +14,36 @@ import java.util.Map;
  */
 public interface SeriesItemService extends IService<SeriesItemEntity> {
 
+    /**
+     * 车款分页列表
+     *
+     * @param params
+     * @return
+     */
     PageUtils queryPage(Map<String, Object> params);
 
-    Boolean saveSeriesItem(SeriesItemEntity seriesItem);
+    /**
+     * 车款保存
+     *
+     * @param seriesItem
+     * @return
+     */
+    boolean saveSeriesItem(SeriesItemEntity seriesItem);
 
-    Boolean updateSeriesItem(SeriesItemEntity seriesItem);
+    /**
+     * 车款更新
+     *
+     * @param seriesItem
+     * @return
+     */
+    boolean updateSeriesItem(SeriesItemEntity seriesItem);
 
-    Boolean removeByItemIds(List<Long> itemIdList);
+    /**
+     * 车款删除
+     *
+     * @param itemIdList
+     * @return
+     */
+    boolean removeByItemIds(List<Long> itemIdList);
 }
 

@@ -20,5 +20,9 @@ public interface CustomerCarSeriesRelService extends IService<CustomerCarSeriesR
     PageUtils queryPage(Map<String, Object> params);
 
     List<CustomerCarVo> getCarListByCustomerId(Long customerId);
+
+    boolean saveCustomerCarSeriesRel(CustomerCarSeriesRelEntity customerCarSeriesRel);
+
+    boolean removeByCustomerCarSeriesRelIds(List<Long> asList);
 }
 

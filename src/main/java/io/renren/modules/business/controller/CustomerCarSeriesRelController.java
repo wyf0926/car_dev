@@ -76,7 +76,6 @@ public class CustomerCarSeriesRelController extends AbstractController {
     @RequiresPermissions("business:customer:list")
     public R listCar(@PathVariable("customerId") Long customerId){
         List<CustomerCarVo> itemList = customerCarSeriesRelService.getCarListByCustomerId(customerId);
-
         return R.ok().put("itemList", itemList);
     }
 
@@ -86,8 +85,7 @@ public class CustomerCarSeriesRelController extends AbstractController {
     @RequestMapping("/save")
     @RequiresPermissions("business:customer:save")
     public R save(@RequestBody CustomerCarSeriesRelEntity customerCarSeriesRel){
-		customerCarSeriesRelService.save(customerCarSeriesRel);
-
+		customerCarSeriesRelService.saveCustomerCarSeriesRel(customerCarSeriesRel);
         return R.ok();
     }
 
@@ -107,9 +105,8 @@ public class CustomerCarSeriesRelController extends AbstractController {
      */
     @RequestMapping("/delete")
     @RequiresPermissions("business:customer:delete")
-    public R delete(@RequestBody Integer[] relIds){
-		customerCarSeriesRelService.removeByIds(Arrays.asList(relIds));
-
+    public R delete(@RequestBody Long[] relIds){
+		customerCarSeriesRelService.removeByCustomerCarSeriesRelIds(Arrays.asList(relIds));
         return R.ok();
     }
 

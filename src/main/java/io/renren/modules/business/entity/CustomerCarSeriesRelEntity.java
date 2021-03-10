@@ -24,15 +24,15 @@ public class CustomerCarSeriesRelEntity implements Serializable {
 	 * 关联id
 	 */
 	@TableId
-	private Integer relId;
+	private Long relId;
 	/**
 	 * 客户id
 	 */
-	private Integer customerId;
+	private Long customerId;
 	/**
 	 * 车系id
 	 */
-	private Integer seriesId;
+	private Long seriesId;
 	/**
 	 * 车牌号码
 	 */

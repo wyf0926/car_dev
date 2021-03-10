@@ -81,7 +81,7 @@ public class SeriesItemServiceImpl extends ServiceImpl<SeriesItemDao, SeriesItem
             throw new RRException("错误:发生未知异常,请联系系统管理员!", 501);
         }
 
-        return this.baseMapper.updateById(seriesItem) == 1;
+        return true;
     }
 
     @Override

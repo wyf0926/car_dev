@@ -24,5 +24,7 @@ public interface CustomerCarSeriesRelService extends IService<CustomerCarSeriesR
     boolean saveCustomerCarSeriesRel(CustomerCarSeriesRelEntity customerCarSeriesRel);
 
     boolean removeByCustomerCarSeriesRelIds(List<Long> asList);
+
+    boolean updateCustomerCarSeriesRelById(CustomerCarSeriesRelEntity customerCarSeriesRel);
 }
 

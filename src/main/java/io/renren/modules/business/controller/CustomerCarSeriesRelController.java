@@ -95,8 +95,7 @@ public class CustomerCarSeriesRelController extends AbstractController {
     @RequestMapping("/update")
     @RequiresPermissions("business:customer:update")
     public R update(@RequestBody CustomerCarSeriesRelEntity customerCarSeriesRel){
-		customerCarSeriesRelService.updateById(customerCarSeriesRel);
-
+		customerCarSeriesRelService.updateCustomerCarSeriesRelById(customerCarSeriesRel);
         return R.ok();
     }
 

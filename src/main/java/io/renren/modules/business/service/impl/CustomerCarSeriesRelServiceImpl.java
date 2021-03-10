@@ -59,9 +59,32 @@ public class CustomerCarSeriesRelServiceImpl extends ServiceImpl<CustomerCarSeri
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean updateCustomerCarSeriesRelById(CustomerCarSeriesRelEntity customerCarSeriesRel) {
+        List<CustomerCarSeriesRelEntity> carPlateCheck = this.baseMapper.selectList(new LambdaQueryWrapper<CustomerCarSeriesRelEntity>()
+                .eq(CustomerCarSeriesRelEntity::getCustomerId, customerCarSeriesRel.getCustomerId())
+                .eq(CustomerCarSeriesRelEntity::getCarPlate, customerCarSeriesRel.getCarPlate())
+                .ne(CustomerCarSeriesRelEntity::getRelId, customerCarSeriesRel.getRelId()));
+        List<CustomerCarSeriesRelEntity> vinCheck = this.baseMapper.selectList(new LambdaQueryWrapper<CustomerCarSeriesRelEntity>()
+                .eq(CustomerCarSeriesRelEntity::getCustomerId, customerCarSeriesRel.getCustomerId())
+                .eq(CustomerCarSeriesRelEntity::getVin, customerCarSeriesRel.getVin())
+                .ne(CustomerCarSeriesRelEntity::getRelId, customerCarSeriesRel.getRelId()));
+        if (!carPlateCheck.isEmpty() || !vinCheck.isEmpty()) {
+            throw new RRException("该客户名下已存在该车辆！", 501);
+        }
+        if (1 != this.baseMapper.updateById(customerCarSeriesRel)) {
+            throw new RRException("错误:更新时发生未知异常,请联系系统管理员!", 501);
+        }
+        return true;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean removeByCustomerCarSeriesRelIds(List<Long> relIdList) {
         int delCount = this.baseMapper.deleteBatchIds(relIdList);
         return delCount == relIdList.size();
     }
+
+
 
 }

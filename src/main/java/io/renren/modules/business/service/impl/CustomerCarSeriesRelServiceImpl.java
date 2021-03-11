@@ -83,13 +83,15 @@ public class CustomerCarSeriesRelServiceImpl extends ServiceImpl<CustomerCarSeri
 
         // 将车牌所有字母转为大写
         customerCarVo.setCarPlate(customerCarVo.getCarPlate().toUpperCase());
-        List<CustomerCarSeriesRelEntity> carPlateCheck = this.baseMapper.selectList(new LambdaQueryWrapper<CustomerCarSeriesRelEntity>()
+        List<CustomerCarSeriesRelEntity> list = this.baseMapper.selectList(new LambdaQueryWrapper<CustomerCarSeriesRelEntity>()
                 .eq(CustomerCarSeriesRelEntity::getCustomerId, customerCarVo.getCustomerId())
-                .eq(CustomerCarSeriesRelEntity::getCarPlate, customerCarVo.getCarPlate()));
-        List<CustomerCarSeriesRelEntity> vinCheck = this.baseMapper.selectList(new LambdaQueryWrapper<CustomerCarSeriesRelEntity>()
-                .eq(CustomerCarSeriesRelEntity::getCustomerId, customerCarVo.getCustomerId())
-                .eq(CustomerCarSeriesRelEntity::getVin, customerCarVo.getVin()));
-        if (!carPlateCheck.isEmpty() || !vinCheck.isEmpty()) {
+                .and(wrapper -> wrapper
+                        .eq(StringUtils.isNotBlank(customerCarVo.getCarPlate()), CustomerCarSeriesRelEntity::getCarPlate, customerCarVo.getCarPlate())
+                        .or().eq(StringUtils.isNotBlank(customerCarVo.getVin()), CustomerCarSeriesRelEntity::getVin, customerCarVo.getVin())
+                        .or().eq(StringUtils.isNotBlank(customerCarVo.getEngineNo()), CustomerCarSeriesRelEntity::getEngineNo, customerCarVo.getEngineNo()))
+                );
+
+        if (!list.isEmpty()) {
             throw new RRException("该客户名下已存在该车辆！", 501);
         }
 
@@ -99,15 +101,16 @@ public class CustomerCarSeriesRelServiceImpl extends ServiceImpl<CustomerCarSeri
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean updateCustomerCarSeriesRelById(CustomerCarSeriesRelEntity customerCarSeriesRel) {
-        List<CustomerCarSeriesRelEntity> carPlateCheck = this.baseMapper.selectList(new LambdaQueryWrapper<CustomerCarSeriesRelEntity>()
+        List<CustomerCarSeriesRelEntity> list = this.baseMapper.selectList(new LambdaQueryWrapper<CustomerCarSeriesRelEntity>()
                 .eq(CustomerCarSeriesRelEntity::getCustomerId, customerCarSeriesRel.getCustomerId())
-                .eq(CustomerCarSeriesRelEntity::getCarPlate, customerCarSeriesRel.getCarPlate())
-                .ne(CustomerCarSeriesRelEntity::getRelId, customerCarSeriesRel.getRelId()));
-        List<CustomerCarSeriesRelEntity> vinCheck = this.baseMapper.selectList(new LambdaQueryWrapper<CustomerCarSeriesRelEntity>()
-                .eq(CustomerCarSeriesRelEntity::getCustomerId, customerCarSeriesRel.getCustomerId())
-                .eq(CustomerCarSeriesRelEntity::getVin, customerCarSeriesRel.getVin())
-                .ne(CustomerCarSeriesRelEntity::getRelId, customerCarSeriesRel.getRelId()));
-        if (!carPlateCheck.isEmpty() || !vinCheck.isEmpty()) {
+                .ne(CustomerCarSeriesRelEntity::getRelId, customerCarSeriesRel.getRelId())
+                .and(wrapper -> wrapper
+                        .eq(StringUtils.isNotBlank(customerCarSeriesRel.getCarPlate()), CustomerCarSeriesRelEntity::getCarPlate, customerCarSeriesRel.getCarPlate())
+                        .or().eq(StringUtils.isNotBlank(customerCarSeriesRel.getVin()), CustomerCarSeriesRelEntity::getVin, customerCarSeriesRel.getVin())
+                        .or().eq(StringUtils.isNotBlank(customerCarSeriesRel.getEngineNo()), CustomerCarSeriesRelEntity::getEngineNo, customerCarSeriesRel.getEngineNo()))
+        );
+
+        if (!list.isEmpty()) {
             throw new RRException("该客户名下已存在该车辆！", 501);
         }
 

@@ -41,6 +41,16 @@ public class ContractorController extends AbstractController {
         return R.ok().put("page", page);
     }
 
+    /**
+     * 获取全部承修方列表
+     */
+    @GetMapping("/listAll")
+    @RequiresPermissions("business:contractor:list")
+    public R listAll() {
+        List<ContractorEntity> list = contractorService.list(new QueryWrapper<ContractorEntity>());
+
+        return R.ok().put("list", list);
+    }
 
     /**
      * 信息

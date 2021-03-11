@@ -15,4 +15,5 @@ import lombok.EqualsAndHashCode;
 public class CustomerCarVo extends CustomerCarSeriesRelEntity {
 
     private String seriesName;
+    
 }

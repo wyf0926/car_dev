@@ -1,6 +1,7 @@
 package io.renren.modules.business.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.math.BigDecimal;
@@ -43,6 +44,10 @@ public class OrdersEntity implements Serializable {
 	 */
 	private String vin;
 	/**
+	 * 发动机号
+	 */
+	private String engineNo;
+	/**
 	 * 客户id
 	 */
 	private Integer customerId;
@@ -75,11 +80,6 @@ public class OrdersEntity implements Serializable {
 	 */
 	private Long contractorId;
 	/**
-	 * 承修方名称
-
-	 */
-	private String contractorName;
-	/**
 	 * 结算日期
 	 */
 	private String payDate;
@@ -98,6 +98,7 @@ public class OrdersEntity implements Serializable {
 	/**
 	 * 删除状态:0.未删除，1.已删除
 	 */
+	@TableLogic
 	private Integer delState;
 	/**
 	 * 创建时间

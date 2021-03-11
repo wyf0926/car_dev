@@ -42,6 +42,10 @@ public class CustomerCarSeriesRelEntity implements Serializable {
 	 */
 	private String vin;
 	/**
+	 * 发动机号
+	 */
+	private String engineNo;
+	/**
 	 * 删除状态:0.未删除，1.已删除
 	 */
 	@TableLogic

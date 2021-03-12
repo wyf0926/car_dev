@@ -29,16 +29,22 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerDao, CustomerEntity
     public PageUtils queryPage(Map<String, Object> params) {
         QueryWrapper<CustomerEntity> queryWrapper = new QueryWrapper<>();
 
-        String key = params.get("key").toString();
-        if (StringUtils.isNotBlank(key)) {
-            queryWrapper.lambda().like(CustomerEntity::getName, key);
+        Object keyObj = params.get("key");
+        if (keyObj != null) {
+            String key = keyObj.toString();
+            if (StringUtils.isNotBlank(key)) {
+                queryWrapper.lambda().like(CustomerEntity::getName, key);
+            }
         }
 
-        String t = params.get("type").toString();
-        if (StringUtils.isNotBlank(t)) {
-            Integer type = Integer.valueOf(t);
-            if (type != null) {
-                queryWrapper.lambda().eq(CustomerEntity::getType, type);
+        Object typeObj = params.get("type");
+        if (typeObj != null) {
+            String t = typeObj.toString();
+            if (StringUtils.isNotBlank(t)) {
+                Integer type = Integer.valueOf(t);
+                if (type != null) {
+                    queryWrapper.lambda().eq(CustomerEntity::getType, type);
+                }
             }
         }
 

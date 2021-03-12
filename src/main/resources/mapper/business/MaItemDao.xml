@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.modules.business.dao.MaItemDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="io.renren.modules.business.entity.MaItemEntity" id="maItemMap">
+        <result property="maItemId" column="ma_item_id"/>
+        <result property="itemName" column="item_name"/>
+        <result property="referPrice" column="refer_price"/>
+        <result property="comment" column="comment"/>
+        <result property="delState" column="del_state"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createUser" column="create_user"/>
+        <result property="modifyTime" column="modify_time"/>
+        <result property="modifyUser" column="modify_user"/>
+    </resultMap>
+
+
+</mapper>

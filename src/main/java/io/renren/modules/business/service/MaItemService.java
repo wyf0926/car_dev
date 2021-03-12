@@ -2,21 +2,21 @@ package io.renren.modules.business.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import io.renren.common.utils.PageUtils;
-import io.renren.modules.business.entity.PartEntity;
+import io.renren.modules.business.entity.MaItemEntity;
 
 import java.util.Map;
 
 /**
- * 配件表
+ * 维修项目表
  *
  * @author allan
  * @email zwy1997213@163.com
- * @date 2021-02-21 11:09:31
+ * @date 2021-03-12 10:08:37
  */
-public interface PartService extends IService<PartEntity> {
+public interface MaItemService extends IService<MaItemEntity> {
 
     /**
-     * 分页列表接口
+     * 分页列表查询
      *
      * @param params
      * @return
@@ -24,19 +24,19 @@ public interface PartService extends IService<PartEntity> {
     PageUtils queryPage(Map<String, Object> params);
 
     /**
-     * 配件新增
+     * 维修项目新增
      *
-     * @param part
+     * @param maItem
      * @return
      */
-    boolean savePart(PartEntity part);
+    boolean saveMaItem(MaItemEntity maItem);
 
     /**
-     * 配件更新
+     * 维修项目更新
      *
-     * @param part
+     * @param maItem
      * @return
      */
-    boolean updatePartById(PartEntity part);
+    boolean updateMaItemById(MaItemEntity maItem);
 }
 

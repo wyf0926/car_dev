@@ -68,17 +68,25 @@ public class CustomerCarSeriesRelServiceImpl extends ServiceImpl<CustomerCarSeri
                 throw new RRException("请输入车系名!",501);
             }
 
-            SeriesEntity series = new SeriesEntity();
-            series.setSeriesName(seriesName);
-            series.setSeriesFctMaxPrice(BigDecimal.ZERO);
-            series.setSeriesFctMinPrice(BigDecimal.ZERO);
-            series.setCreateUser(customerCarVo.getCreateUser());
-            series.setCreateTime(new Date());
+            List<SeriesEntity> list = seriesService.list(
+                    new QueryWrapper<SeriesEntity>().lambda().eq(SeriesEntity::getSeriesName, seriesName));
 
-            if (!seriesService.insertSeries(series)) {
-                throw new RRException("错误:发生未知异常,请联系系统管理员!",501);
+            if ( list.isEmpty()) {
+                SeriesEntity series = new SeriesEntity();
+                series.setSeriesName(seriesName);
+                series.setSeriesFctMaxPrice(BigDecimal.ZERO);
+                series.setSeriesFctMinPrice(BigDecimal.ZERO);
+                series.setCreateUser(customerCarVo.getCreateUser());
+                series.setCreateTime(new Date());
+
+                if (!seriesService.insertSeries(series)) {
+                    throw new RRException("错误:发生未知异常,请联系系统管理员!",501);
+                }
+                customerCarVo.setSeriesId(series.getSeriesId());
+            } else {
+                SeriesEntity seriesEntity = list.get(0);
+                customerCarVo.setSeriesId(seriesEntity.getSeriesId());
             }
-            customerCarVo.setSeriesId(series.getSeriesId());
         }
 
         // 将车牌所有字母转为大写

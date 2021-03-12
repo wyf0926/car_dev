@@ -29,9 +29,13 @@ public class OrderPartRelEntity implements Serializable {
      */
     private Long orderId;
     /**
-     * 配件id
+     * 配件名
      */
-    private Long partId;
+    private String partName;
+    /**
+     * 配件单位
+     */
+    private String partUnit;
     /**
      * 实际单价
      */
@@ -44,7 +48,6 @@ public class OrderPartRelEntity implements Serializable {
      * 配件总价
      */
     private BigDecimal totalAmount;
-
     /**
      * 备注
      */

@@ -53,9 +53,10 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerDao, CustomerEntity
     @Override
     public boolean saveCustomer(CustomerEntity customer) {
 
-        List<CustomerEntity> list = this.baseMapper.selectList(new QueryWrapper<CustomerEntity>()
-                .lambda().eq(CustomerEntity::getName, customer.getName()).eq(CustomerEntity::getType,customer.getType()));
-        if (list.size() > 0) {
+        List<CustomerEntity> list = this.baseMapper.selectList(new QueryWrapper<CustomerEntity>().lambda()
+                .eq(CustomerEntity::getName, customer.getName())
+                .eq(CustomerEntity::getType,customer.getType()));
+        if (!list.isEmpty()) {
             throw new RRException("错误:该客户已存在,请勿重复创建!", 501);
         }
 
@@ -71,7 +72,7 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerDao, CustomerEntity
                         .eq(CustomerEntity::getType, customer.getType())
                         .ne(CustomerEntity::getCustomerId, customer.getCustomerId()));
 
-        if (list.size() > 0) {
+        if (!list.isEmpty()) {
             throw new RRException("错误:该客户已存在,请勿重复创建!", 501);
         }
 

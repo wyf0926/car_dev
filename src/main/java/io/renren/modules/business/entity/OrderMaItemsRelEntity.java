@@ -29,9 +29,13 @@ public class OrderMaItemsRelEntity implements Serializable {
      */
     private Long orderId;
     /**
-     * 维修项目id
+     * 维修项目
      */
     private String maItem;
+    /**
+     * 单价
+     */
+    private BigDecimal realPrice;
     /**
      * 维修工时
      */

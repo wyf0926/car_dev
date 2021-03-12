@@ -70,7 +70,6 @@ public class CustomerController extends AbstractController {
 
         if (customerService.saveCustomer(customer)) {
             return R.ok();
-
         }
 
         return R.error();

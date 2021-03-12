@@ -7,7 +7,9 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.math.BigDecimal;
 import java.io.Serializable;
 import java.util.Date;
+
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * 维修单表
@@ -66,7 +68,8 @@ public class OrdersEntity implements Serializable {
 	/**
 	 * 进厂日期
 	 */
-	private String incomingDate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date incomingDate;
 	/**
 	 * 出厂里程表读数
 	 */

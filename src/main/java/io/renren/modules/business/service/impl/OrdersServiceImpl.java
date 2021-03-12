@@ -66,7 +66,8 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersDao, OrdersEntity> impl
         for (PartVo vo : order.getPartList()) {
             OrderPartRelEntity orderPartRelEntity = new OrderPartRelEntity();
             orderPartRelEntity.setOrderId(order.getOrderId());
-            orderPartRelEntity.setPartId(vo.getPartId());
+            orderPartRelEntity.setPartName(vo.getName());
+            orderPartRelEntity.setPartUnit(vo.getUnit());
             orderPartRelEntity.setUsedQuantity(vo.getUsedQuantity());
             orderPartRelEntity.setRealPrice(vo.getUnitPrice());
             orderPartRelEntity.setTotalAmount(orderPartRelEntity.getRealPrice().multiply(vo.getUsedQuantity()));

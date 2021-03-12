@@ -58,9 +58,12 @@ public class PartController extends AbstractController {
     public R save(@RequestBody PartEntity part) {
         part.setCreateUser(this.getUserId());
         part.setCreateTime(new Date());
-        partService.save(part);
 
-        return R.ok();
+        if (partService.savePart(part)) {
+            return R.ok();
+        }
+
+        return R.error();
     }
 
     /**
@@ -71,9 +74,12 @@ public class PartController extends AbstractController {
     public R update(@RequestBody PartEntity part) {
         part.setModifyUser(this.getUserId());
         part.setModifyTime(new Date());
-        partService.updateById(part);
 
-        return R.ok();
+        if (partService.updatePartById(part)) {
+            return R.ok();
+        }
+
+        return R.error();
     }
 
     /**
@@ -82,9 +88,12 @@ public class PartController extends AbstractController {
     @RequestMapping("/delete")
     @RequiresPermissions("business:part:delete")
     public R delete(@RequestBody Integer[] partIds) {
-        partService.removeByIds(Arrays.asList(partIds));
 
-        return R.ok();
+        if (partService.removeByIds(Arrays.asList(partIds))) {
+            return R.ok();
+        }
+
+        return R.error();
     }
 
 }

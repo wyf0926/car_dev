@@ -98,7 +98,6 @@ public class SeriesItemController extends AbstractController {
         if (seriesItemService.removeByItemIds(Arrays.asList(itemIds))) {
             return R.ok();
         }
-
         return R.error();
     }
 

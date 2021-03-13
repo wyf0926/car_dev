@@ -68,7 +68,6 @@ public class OrdersController extends AbstractController {
     @RequiresPermissions("business:order:info")
     public R getOrderNo(){
         String orderNo = sequenceService.getID(SequenceService.ID_Prefix.ORDER);
-
         return R.ok().put("orderNo", orderNo);
     }
 
@@ -103,9 +102,10 @@ public class OrdersController extends AbstractController {
     @RequestMapping("/delete")
     @RequiresPermissions("business:order:delete")
     public R delete(@RequestBody Integer[] orderIds){
-		ordersService.removeByIds(Arrays.asList(orderIds));
-
-        return R.ok();
+		if (ordersService.removeByIds(Arrays.asList(orderIds))) {
+            return R.ok();
+        }
+		return R.error();
     }
 
 }

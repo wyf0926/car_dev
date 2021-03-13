@@ -44,7 +44,6 @@ public class OrderMaItemsRelController {
     @RequiresPermissions("business:ordermaitemsrel:info")
     public R info(@PathVariable("relId") Integer relId) {
         OrderMaItemsRelEntity orderMaItemsRel = orderMaItemsRelService.getById(relId);
-
         return R.ok().put("orderMaItemsRel", orderMaItemsRel);
     }
 
@@ -76,9 +75,10 @@ public class OrderMaItemsRelController {
     @RequestMapping("/delete")
     @RequiresPermissions("business:ordermaitemsrel:delete")
     public R delete(@RequestBody Integer[] relIds) {
-        orderMaItemsRelService.removeByIds(Arrays.asList(relIds));
-
-        return R.ok();
+        if (orderMaItemsRelService.removeByIds(Arrays.asList(relIds))) {
+            return R.ok();
+        }
+        return R.error();
     }
 
 }

@@ -88,11 +88,9 @@ public class PartController extends AbstractController {
     @RequestMapping("/delete")
     @RequiresPermissions("business:part:delete")
     public R delete(@RequestBody Integer[] partIds) {
-
         if (partService.removeByIds(Arrays.asList(partIds))) {
             return R.ok();
         }
-
         return R.error();
     }
 

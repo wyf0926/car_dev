@@ -108,11 +108,9 @@ public class SeriesController extends AbstractController {
     @RequestMapping("/delete")
     @RequiresPermissions("business:series:delete")
     public R delete(@RequestBody Long[] seriesIds) {
-
         if (seriesService.removeSeriesByIds(Arrays.asList(seriesIds))) {
             return R.ok();
         }
-
         return R.error();
     }
 }

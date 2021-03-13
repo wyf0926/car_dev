@@ -69,20 +69,12 @@ public class ContractorController extends AbstractController {
     @RequestMapping("/save")
     @RequiresPermissions("business:contractor:save")
     public R save(@RequestBody ContractorEntity contractor) {
-        List<ContractorEntity> list = contractorService.list(
-                new QueryWrapper<ContractorEntity>()
-                        .lambda()
-                        .eq(ContractorEntity::getContractorName, contractor.getContractorName()));
-
-        if (list.size() > 0) {
-            throw new RRException("错误:该单位名称已创建,请勿重复创建!", 501);
-        }
-
         contractor.setCreateTime(new Date());
         contractor.setCreateUser(this.getUserId());
-        contractorService.save(contractor);
-
-        return R.ok();
+        if (contractorService.saveContractor(contractor)) {
+            return R.ok();
+        }
+        return R.error();
     }
 
     /**
@@ -91,22 +83,12 @@ public class ContractorController extends AbstractController {
     @RequestMapping("/update")
     @RequiresPermissions("business:contractor:update")
     public R update(@RequestBody ContractorEntity contractor) {
-        List<ContractorEntity> list = contractorService.list(
-                new QueryWrapper<ContractorEntity>()
-                        .lambda()
-                        .eq(ContractorEntity::getContractorName, contractor.getContractorName())
-                        .ne(ContractorEntity::getContractorId, contractor.getContractorId())
-        );
-
-        if (list.size() > 0) {
-            throw new RRException("错误:该单位名称已被使用!", 501);
-        }
-
         contractor.setModifyTime(new Date());
         contractor.setModifyUser(this.getUserId());
-        contractorService.updateById(contractor);
-
-        return R.ok();
+        if (contractorService.updateContractorById(contractor)) {
+            return R.ok();
+        }
+        return R.error();
     }
 
     /**
@@ -115,9 +97,10 @@ public class ContractorController extends AbstractController {
     @RequestMapping("/delete")
     @RequiresPermissions("business:contractor:delete")
     public R delete(@RequestBody Integer[] contractorIds) {
-        contractorService.removeByIds(Arrays.asList(contractorIds));
-
-        return R.ok();
+        if (contractorService.removeByIds(Arrays.asList(contractorIds))) {
+            return R.ok();
+        }
+        return R.error();
     }
 
 }

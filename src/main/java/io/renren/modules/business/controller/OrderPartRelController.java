@@ -77,9 +77,10 @@ public class OrderPartRelController extends AbstractController {
     @RequestMapping("/delete")
     @RequiresPermissions("business:orderpartrel:delete")
     public R delete(@RequestBody Integer[] relIds) {
-        orderPartRelService.removeByIds(Arrays.asList(relIds));
-
-        return R.ok();
+        if (orderPartRelService.removeByIds(Arrays.asList(relIds))) {
+            return R.ok();
+        }
+        return R.error();
     }
 
 }

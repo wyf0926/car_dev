@@ -16,5 +16,9 @@ import java.util.Map;
 public interface ContractorService extends IService<ContractorEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    boolean saveContractor(ContractorEntity contractor);
+
+    boolean updateContractorById(ContractorEntity contractor);
 }
 

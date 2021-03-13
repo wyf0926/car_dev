@@ -45,7 +45,7 @@ public class PartController extends AbstractController {
      * 列表
      */
     @GetMapping("/listAll")
-    @RequiresPermissions("business:series:list")
+    @RequiresPermissions("business:part:list")
     public R listAll() {
         List<PartEntity> list = partService.list(new QueryWrapper<PartEntity>());
 

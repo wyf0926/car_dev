@@ -2,16 +2,15 @@ package io.renren.modules.business.controller;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import io.renren.modules.business.entity.PartEntity;
 import io.renren.modules.sys.controller.AbstractController;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import io.renren.modules.business.entity.MaItemEntity;
 import io.renren.modules.business.service.MaItemService;
@@ -44,6 +43,15 @@ public class MaItemController extends AbstractController {
         return R.ok().put("page", page);
     }
 
+    /**
+     * 列表
+     */
+    @GetMapping("/listAll")
+    @RequiresPermissions("business:part:list")
+    public R listAll() {
+        List<MaItemEntity> list = maItemService.list(new QueryWrapper<>());
+        return R.ok().put("list", list);
+    }
 
     /**
      * 信息

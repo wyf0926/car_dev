@@ -1,8 +1,10 @@
 package io.renren.modules.business.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.R;
 import io.renren.modules.business.entity.PartEntity;
+import io.renren.modules.business.entity.SeriesEntity;
 import io.renren.modules.business.service.PartService;
 import io.renren.modules.sys.controller.AbstractController;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 
@@ -36,6 +39,17 @@ public class PartController extends AbstractController {
         PageUtils page = partService.queryPage(params);
 
         return R.ok().put("page", page);
+    }
+
+    /**
+     * 列表
+     */
+    @GetMapping("/listAll")
+    @RequiresPermissions("business:series:list")
+    public R listAll() {
+        List<PartEntity> list = partService.list(new QueryWrapper<PartEntity>());
+
+        return R.ok().put("list", list);
     }
 
 

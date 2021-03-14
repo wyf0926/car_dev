@@ -85,7 +85,8 @@ public class OrdersEntity implements Serializable {
 	/**
 	 * 结算日期
 	 */
-	private String payDate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date payDate;
 	/**
 	 * 支付方式:0.现金，1.银行，2.移动支付
 	 */
@@ -94,6 +95,10 @@ public class OrdersEntity implements Serializable {
 	 * 总金额
 	 */
 	private BigDecimal totalAmount;
+	/**
+	 * 旧配件处理方式
+	 */
+	private Integer olpPart;
 	/**
 	 * 备注
 	 */

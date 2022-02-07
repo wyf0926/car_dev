@@ -98,7 +98,7 @@ public class OrdersEntity implements Serializable {
 	/**
 	 * 旧配件处理方式
 	 */
-	private Integer olpPart;
+	private Integer oldPart;
 	/**
 	 * 备注
 	 */

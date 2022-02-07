@@ -19,6 +19,6 @@ public class OrdersVo extends OrdersEntity {
 
     private List<PartVo> partList;
 
-    private List<OrderMaItemsRelEntity> orderMaItemsRelEntities;
+    private List<MaItemVo> maItemList;
 
 }
